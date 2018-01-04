@@ -14,7 +14,7 @@ public class Botao {
 
 		ProjetoService service = new ProjetoService();
 		service.salvar(FormToProjeto.copia(frm));
-
+		frm.atualizarTabelaProjetos();
 		ApagarDados.formu(frm);
 
 	}
@@ -23,7 +23,7 @@ public class Botao {
 
 		new ProjetoService().excluir(frm.getSelectProjeto());
 
-		frm.removeProjetoSelecionado();
+		frm.atualizarTabelaProjetos();
 
 		ApagarDados.formu(frm);
 

@@ -23,6 +23,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
 import programa.Circuito;
@@ -1316,30 +1317,30 @@ public class ProjetoFrm extends JInternalFrame {
 
 	public void setProjetos(ArrayList<Projeto> projetos) {
 
-		this.tableProjetos.removeAll();
 		ProjetoTableModel model = new ProjetoTableModel();
 		model.setProjetos(projetos);
-		this.getTableProjetos().setModel(model);
+		this.tableProjetos.setModel(new DefaultTableModel());
 		this.getTableProjetos().updateUI();
+		this.getTableProjetos().setModel(model);
 
 	}
 
 	public Projeto getSelectProjeto() {
+
 		HashMap<Object, Object> filtro = new HashMap<>();
 		filtro.put("Id", this.getTableProjetos().getValueAt(this.getTableProjetos().getSelectedRow(), 0));
-
 		Projeto projeto = new ProjetoService().getProjetos(filtro).get(0);
 
 		return projeto;
 	}
 
-	public void removeProjetoSelecionado() {
-		
-		this.tableProjetos.remove(this.tableProjetos.getSelectedRow());
-		
-		//this.tableProjetos.updateUI();
-		//ProjetoService service = new ProjetoService();
-		//this.setProjetos(service.getProjetos(new HashMap<>()));
+	public void atualizarTabelaProjetos() {
+
+		this.tableProjetos.updateUI();
+		ProjetoService service = new ProjetoService();
+		ArrayList<Projeto> projetos = new ArrayList<>();
+		projetos = service.getProjetos(new HashMap<>());
+		this.setProjetos(projetos);
 	}
 
 }

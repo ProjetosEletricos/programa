@@ -19,14 +19,12 @@ public class ProjetoListSelectionListener implements ListSelectionListener {
 	public void valueChanged(ListSelectionEvent e) {
 
 		int firstIndex = e.getFirstIndex();
-		
+
 		if (firstIndex >= 0 && firstIndex < frm.getTableProjetos().getModel().getRowCount()) {
-			
+
 			Projeto projeto = frm.getSelectProjeto();
 			ProjetoToForm.copia(projeto, frm);
 
-		}else {
-			System.out.println("teste");
 		}
 	}
 
