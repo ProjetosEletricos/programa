@@ -44,6 +44,8 @@ public class Botao {
 		ProjetoService service = new ProjetoService();
 		frm.getLblIdProjeto().setText("0");
 		service.salvar(FormToProjeto.copia(frm));
+		frm.atualizarTabelaProjetos();
+		ApagarDados.formu(frm);
 
 	}
 

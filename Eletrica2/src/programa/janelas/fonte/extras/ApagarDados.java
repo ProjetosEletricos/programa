@@ -1,6 +1,6 @@
 package programa.janelas.fonte.extras;
 
-import programa.janelas.fonte.FonteFrm;
+import programa.janelas.projeto.ProjetoFrm;
 
 public class ApagarDados {
 
@@ -8,9 +8,9 @@ public class ApagarDados {
 		throw new IllegalStateException("Utility class");
 	}
 
-	public static void formu(FonteFrm frm) {
+	public static void formu(ProjetoFrm frm) {
 
-		frm.getTxtTensao().setText("");
+		frm.getTxtTensaoFonte().setText("");
 		frm.getCbConcessionaria().setSelectedItem(null);
 		frm.getLblIdFonte().setText("0");
 	}

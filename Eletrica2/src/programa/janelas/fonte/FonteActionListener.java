@@ -2,65 +2,40 @@ package programa.janelas.fonte;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import programa.janelas.fonte.extras.Botao;
-import programa.janelas.fonte.extras.DesabilitaCampos;
-import programa.janelas.fonte.extras.Tabela;
+import programa.janelas.projeto.ProjetoFrm;
 
 public class FonteActionListener implements ActionListener {
 
-	private FonteFrm frm;
+	private ProjetoFrm frm;
 
-	public FonteActionListener(FonteFrm frm) {
+	public FonteActionListener(ProjetoFrm frm) {
 		this.frm = frm;
-		adiciona_ActionListener();
-		DesabilitaCampos.formu(frm);
+		adicionaActionListener();
+
 	}
 
-	protected void adiciona_ActionListener() {
+	protected void adicionaActionListener() {
 
-		frm.getMntmExcluir().addActionListener(this);
-		frm.getMntmInserir().addActionListener(this);
-		frm.getMntmSalvar().addActionListener(this);
-		frm.getMntmCancelar().addActionListener(this);
-		frm.getMntmCopiar().addActionListener(this);
+		frm.getBtnCopiarFonte().addActionListener(this);
+		frm.getBtnExcluirFonte().addActionListener(this);
+		frm.getBtnSalvarFonte().addActionListener(this);
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-
-		int idProjeto = 0;
-
-		if (!(frm.getLblIdProjeto().getText().equals("0") || frm.getLblIdProjeto().getText().equals(""))) {
-			idProjeto = Integer.parseInt(frm.getLblIdProjeto().getText());
-		}
-
-		if (event.getActionCommand().equals("Inserir")) {
-			Botao.inserir(frm, idProjeto);
-		} else if (event.getActionCommand().equals("Excluir")) {
+		int idProjeto = Integer.parseInt(frm.getLblIdProjeto().toString());
+		if (event.getSource() == frm.getBtnExcluirFonte()) {
 			Botao.excluir(frm);
-			atualizaTabela();
-		} else if (event.getActionCommand().equals("Salvar")) {
+
+		} else if (event.getSource() == frm.getBtnSalvarFonte()) {
 			Botao.salvar(frm, idProjeto);
-			atualizaTabela();
-		} else if (event.getActionCommand().equals("Cancelar")) {
-			Botao.cancelar(frm, idProjeto);
-			atualizaTabela();
-		} else if (event.getActionCommand().equals("Copiar")) {
+
+		} else if (event.getSource() == frm.getBtnCopiarFonte()) {
 			Botao.copiar(frm, idProjeto);
-			atualizaTabela();
+
 		}
-
 	}
-
-	public void atualizaTabela() {
-		HashMap<Object,Object> filtro = new HashMap<>();
-		filtro.put("idProjeto", frm.getLblIdProjeto().getText());
-		new Tabela(frm).filtra(filtro);
-	}
-
-
-
 }

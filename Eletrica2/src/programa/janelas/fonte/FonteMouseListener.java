@@ -4,13 +4,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import programa.janelas.main.Principal;
+import programa.janelas.projeto.ProjetoFrm;
 import programa.janelas.quadro.QuadroFrm;
 
 public class FonteMouseListener implements MouseListener {
 
-	private FonteFrm frm;
+	private ProjetoFrm frm;
 
-	public FonteMouseListener(FonteFrm frm) {
+	public FonteMouseListener(ProjetoFrm frm) {
 
 		this.frm = frm;
 		this.adicionarMouseListener();

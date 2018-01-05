@@ -4,12 +4,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import programa.janelas.formatacao.ApenasNumero;
+import programa.janelas.projeto.ProjetoFrm;
 
-public class Fontes_KeyListener implements KeyListener {
+public class FontesKeyListener implements KeyListener {
 
-	private FonteFrm frm;
+	private ProjetoFrm frm;
 
-	public Fontes_KeyListener(FonteFrm frm) {
+	public FontesKeyListener(ProjetoFrm frm) {
 		this.frm = frm;
 		adicionarKeyListener();
 
@@ -17,14 +18,14 @@ public class Fontes_KeyListener implements KeyListener {
 
 	public void adicionarKeyListener() {
 
-		frm.getTxtTensao().addKeyListener(this);
+		frm.getTxtTensaoFonte().addKeyListener(this);
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent event) {
 
-		ApenasNumero.campo(event, "txtTensao");
+		ApenasNumero.campo(event, "txtTensaoFonte");
 
 	}
 

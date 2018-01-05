@@ -25,10 +25,15 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
+import auxiliar.Data;
 import net.miginfocom.swing.MigLayout;
 import programa.Circuito;
+import programa.Fonte;
 import programa.Projeto;
+import programa.janelas.fonte.FonteListSelectionListener;
+import programa.janelas.fonte.extras.FonteTableModel;
 import programa.janelas.projeto.extras.ProjetoTableModel;
+import programa.servico.FonteService;
 import programa.servico.ProjetoService;
 
 public class ProjetoFrm extends JInternalFrame {
@@ -46,7 +51,7 @@ public class ProjetoFrm extends JInternalFrame {
 	private JComboBox<String> txtIsolacao;
 	private JComboBox<String> txtmodoInstalacao;
 	private JComboBox<String> txtMaterial;
-	private JTabbedPane tabbedPane;
+	private JTabbedPane abas;
 	private JButton btnSalvarProjeto;
 	private JButton btnExcluirProjeto;
 	private JButton btnCopiarProjeto;
@@ -103,6 +108,8 @@ public class ProjetoFrm extends JInternalFrame {
 	private JButton btnExcluirCircuito;
 	private JButton btnSalvarCircuito;
 	private JTextPane txtDescricaoProjeto;
+	private JPanel panelFonte;
+	private JLabel lblIdFonte;
 
 	public ProjetoFrm() {
 		setClosable(true);
@@ -119,12 +126,12 @@ public class ProjetoFrm extends JInternalFrame {
 		contentPane.add(panel_3);
 		panel_3.setLayout(null);
 
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 692, 370);
-		panel_3.add(tabbedPane);
+		abas = new JTabbedPane(JTabbedPane.TOP);
+		abas.setBounds(0, 0, 692, 370);
+		panel_3.add(abas);
 
 		JPanel panel_9 = new JPanel();
-		tabbedPane.addTab("Projeto", null, panel_9, null);
+		abas.addTab("Projeto", null, panel_9, null);
 		panel_9.setLayout(null);
 
 		JPanel panel_10 = new JPanel();
@@ -226,25 +233,21 @@ public class ProjetoFrm extends JInternalFrame {
 		lblIdProjeto.setBounds(146, 20, 70, 15);
 		panel_9.add(lblIdProjeto);
 
-		JPanel panel_13 = new JPanel();
-		tabbedPane.addTab("Fonte", null, panel_13, null);
-		panel_13.setLayout(null);
+		panelFonte = new JPanel();
+		abas.addTab("Fonte", null, panelFonte, null);
+		panelFonte.setLayout(null);
 
 		JPanel panel_15 = new JPanel();
 		panel_15.setLayout(null);
 		panel_15.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Informa\u00E7\u00F5es",
 				TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		panel_15.setBounds(12, 44, 352, 80);
-		panel_13.add(panel_15);
+		panelFonte.add(panel_15);
 
 		JLabel label_6 = new JLabel("Tens\u00E3o nominal (F-N):");
 		label_6.setBounds(12, 19, 154, 16);
 		panel_15.add(label_6);
 
-		JLabel lblIdFonte = new JLabel("");
-		lblIdFonte.setName("lblIdFonte");
-		lblIdFonte.setBounds(231, 19, 55, 16);
-		panel_15.add(lblIdFonte);
 
 		JLabel label_9 = new JLabel("V");
 		label_9.setBounds(217, 20, 18, 16);
@@ -268,7 +271,7 @@ public class ProjetoFrm extends JInternalFrame {
 
 		JPanel panel_19 = new JPanel();
 		panel_19.setBounds(12, 0, 116, 43);
-		panel_13.add(panel_19);
+		panelFonte.add(panel_19);
 		panel_19.setLayout(new MigLayout("", "[][][]", "[]"));
 
 		btnSalvarFonte = new JButton("");
@@ -293,7 +296,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_20.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Cadastrados",
 				TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		panel_20.setBounds(12, 128, 352, 203);
-		panel_13.add(panel_20);
+		panelFonte.add(panel_20);
 		panel_20.setLayout(null);
 
 		JScrollPane scrollPane_4 = new JScrollPane();
@@ -303,9 +306,13 @@ public class ProjetoFrm extends JInternalFrame {
 
 		tableFontes = new JTable();
 		scrollPane_4.setViewportView(tableFontes);
+		
+		lblIdFonte = new JLabel("");
+		lblIdFonte.setBounds(143, 17, 70, 15);
+		panelFonte.add(lblIdFonte);
 
 		JPanel panel_14 = new JPanel();
-		tabbedPane.addTab("Quadro", null, panel_14, null);
+		abas.addTab("Quadro", null, panel_14, null);
 		panel_14.setLayout(null);
 
 		JPanel panel_16 = new JPanel();
@@ -413,8 +420,8 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_14.add(lblIdQuadro);
 
 		JPanel panel_4 = new JPanel();
-		tabbedPane.addTab("Circuito", null, panel_4, null);
-		tabbedPane.setEnabledAt(3, true);
+		abas.addTab("Circuito", null, panel_4, null);
+		abas.setEnabledAt(3, true);
 		panel_4.setLayout(null);
 
 		JPanel panel_6 = new JPanel();
@@ -585,7 +592,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_4.add(lblIdCircuito);
 
 		JPanel panel_5 = new JPanel();
-		tabbedPane.addTab("Equipamento", null, panel_5, null);
+		abas.addTab("Equipamento", null, panel_5, null);
 		panel_5.setLayout(null);
 
 		JPanel panel_1 = new JPanel();
@@ -766,7 +773,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_5.add(lblIdEquipamento);
 
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("Resultados", null, panel, null);
+		abas.addTab("Resultados", null, panel, null);
 		panel.setLayout(null);
 
 		listener();
@@ -774,13 +781,112 @@ public class ProjetoFrm extends JInternalFrame {
 
 	public void listener() {
 
-		new ProjetoControle(this);
-		tableProjetos.getSelectionModel().addListSelectionListener(new ProjetoListSelectionListener(this));
+		this.iniciaTabelaProjetos();
+		this.txtData.setText(Data.Atual());
+		this.tableProjetos.getSelectionModel().addListSelectionListener(new ProjetoListSelectionListener(this));
+		this.abas.addChangeListener(new ProjetoChangeListener(this));
+		this.tableFontes.getSelectionModel().addListSelectionListener(new FonteListSelectionListener(this));
+	}
+	
+	public void iniciaTabelaFontes() {
+		FonteService service = new FonteService();
+		FonteTableModel model = new FonteTableModel();
+		HashMap<Object,Object> filtro = new HashMap<>();
+		filtro.put("idProjeto", Integer.parseInt(lblIdProjeto.getText()));
+		model.setFontes(service.getFontes(filtro));
+		this.tableFontes.setModel(model);
+	}
+
+	public void iniciaTabelaProjetos() {
+		ProjetoService service = new ProjetoService();
+		ProjetoTableModel model = new ProjetoTableModel();
+		model.setProjetos(service.getProjetos(new HashMap<>()));
+		this.tableProjetos.setModel(model);
+	}
+
+	public void setCircuitos(List<Circuito> circuitos) {
+		this.listCircuitos.setListData(circuitos.toArray(new Circuito[circuitos.size()]));
+	}
+
+	public Circuito getSelectCircuito() {
+		return this.listCircuitos.getSelectedValue();
+	}
+
+	public void removeCircuitoSelecionado() {
+		this.listCircuitos.remove(this.listCircuitos.getSelectedIndex());
+	}
+	
+	public void setFontes(ArrayList<Fonte> fontes) {
+
+		FonteTableModel model = new FonteTableModel();
+		model.setFontes(fontes);
+		this.tableFontes.setModel(new DefaultTableModel());
+		this.tableFontes.setModel(model);
+
+	}
+
+	public Fonte getSelectFonte() {
+
+		int index = this.tableFontes.getSelectedRow();
+		FonteTableModel model = (FonteTableModel) this.tableFontes.getModel();
+		return model.getFonte(index);
+
+	}
+
+	public void atualizarTabelaFontes() {
+
+		this.tableFontes.updateUI();
+		FonteService service = new FonteService();
+		ArrayList<Fonte> fontes = new ArrayList<>();
+		fontes = service.getFontes(new HashMap<>());
+		this.setFontes(fontes);
+	}
+
+	public void setProjetos(ArrayList<Projeto> projetos) {
+
+		ProjetoTableModel model = new ProjetoTableModel();
+		model.setProjetos(projetos);
+		this.tableProjetos.setModel(new DefaultTableModel());
+		this.tableProjetos.setModel(model);
+
+	}
+
+	public Projeto getSelectProjeto() {
+
+		int index = this.tableProjetos.getSelectedRow();
+		ProjetoTableModel model = (ProjetoTableModel) this.tableProjetos.getModel();
+		return model.getProjeto(index);
+
+	}
+
+	public void atualizarTabelaProjetos() {
+
+		this.tableProjetos.updateUI();
+		ProjetoService service = new ProjetoService();
+		ArrayList<Projeto> projetos = new ArrayList<>();
+		projetos = service.getProjetos(new HashMap<>());
+		this.setProjetos(projetos);
 	}
 
 	public void setPosicao() {
 		Dimension d = this.getDesktopPane().getSize();
 		this.setLocation((d.width - this.getSize().width) / 2, (d.height - this.getSize().height) / 2);
+	}
+
+	public JLabel getLblIdFonte() {
+		return lblIdFonte;
+	}
+
+	public void setLblIdFonte(JLabel lblIdFonte) {
+		this.lblIdFonte = lblIdFonte;
+	}
+
+	public JPanel getPanelFonte() {
+		return panelFonte;
+	}
+
+	public void setPanelFonte(JPanel panelFonte) {
+		this.panelFonte = panelFonte;
 	}
 
 	public JComboBox<String> getCbNCamadas() {
@@ -1303,44 +1409,11 @@ public class ProjetoFrm extends JInternalFrame {
 		this.btnSalvarCircuito = btnSalvarCircuito;
 	}
 
-	public void setCircuitos(List<Circuito> circuitos) {
-		this.listCircuitos.setListData(circuitos.toArray(new Circuito[circuitos.size()]));
+	public JTabbedPane getAbas() {
+		return abas;
 	}
 
-	public Circuito getSelectCircuito() {
-		return this.listCircuitos.getSelectedValue();
+	public void setAbas(JTabbedPane abas) {
+		this.abas = abas;
 	}
-
-	public void removeCircuitoSelecionado() {
-		this.listCircuitos.remove(this.listCircuitos.getSelectedIndex());
-	}
-
-	public void setProjetos(ArrayList<Projeto> projetos) {
-
-		ProjetoTableModel model = new ProjetoTableModel();
-		model.setProjetos(projetos);
-		this.tableProjetos.setModel(new DefaultTableModel());
-		this.getTableProjetos().updateUI();
-		this.getTableProjetos().setModel(model);
-
-	}
-
-	public Projeto getSelectProjeto() {
-
-		HashMap<Object, Object> filtro = new HashMap<>();
-		filtro.put("Id", this.getTableProjetos().getValueAt(this.getTableProjetos().getSelectedRow(), 0));
-		Projeto projeto = new ProjetoService().getProjetos(filtro).get(0);
-
-		return projeto;
-	}
-
-	public void atualizarTabelaProjetos() {
-
-		this.tableProjetos.updateUI();
-		ProjetoService service = new ProjetoService();
-		ArrayList<Projeto> projetos = new ArrayList<>();
-		projetos = service.getProjetos(new HashMap<>());
-		this.setProjetos(projetos);
-	}
-
 }
