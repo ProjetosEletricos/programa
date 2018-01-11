@@ -39,7 +39,7 @@ import programa.janelas.fonte.extras.FonteTableModel;
 import programa.janelas.projeto.extras.ProjetoTableModel;
 import programa.janelas.quadro.QuadroActionListener;
 import programa.janelas.quadro.QuadroKeyListener;
-import programa.janelas.quadro.QuadroMouseListener;
+import programa.janelas.quadro.QuadroPopupMenuListener;
 import programa.janelas.quadro.extras.QuadroApagarDados;
 import programa.janelas.quadro.extras.QuadroTableModel;
 import programa.servico.FonteService;
@@ -816,9 +816,7 @@ public class ProjetoFrm extends JInternalFrame {
 		this.tableProjetos.getSelectionModel().addListSelectionListener(new ProjetoListSelectionListener(this));
 		this.abas.addChangeListener(new ProjetoChangeListener(this));
 		this.tableFontes.getSelectionModel().addListSelectionListener(new FonteListSelectionListener(this));
-		this.cbQuadroPai.addMouseListener(new QuadroMouseListener(this));
-
-		new ProjetoActionListener(this);
+		this.cbQuadroPai.addPopupMenuListener(new QuadroPopupMenuListener(this));
 		new FontesKeyListener(this);
 		new FonteActionListener(this);
 		new QuadroKeyListener(this);
