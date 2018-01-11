@@ -47,9 +47,8 @@ public class FonteTableModel extends AbstractTableModel {
 			return fonte.getTensaoFN();
 		case 2:
 			return fonte.getConcessionaria();
-		default:
-			return "";
 		}
+		return null;
 	}
 
 	@Override
@@ -87,6 +86,7 @@ public class FonteTableModel extends AbstractTableModel {
 	public void Excluir(Fonte fonte) {
 		this.fontes.remove(fonte);
 		fireTableDataChanged();
+		fireTableRowsDeleted(0, getRowCount() - 1);
 	}
 
 	public void Excluir(int pos) {

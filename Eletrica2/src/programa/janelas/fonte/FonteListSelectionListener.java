@@ -19,15 +19,7 @@ public class FonteListSelectionListener implements ListSelectionListener {
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		/*
-		 * HashMap<Object, Object> filtro = new HashMap<>(); filtro.put("Id",
-		 * frm.getTableFontes().getValueAt(frm.getTableFontes().getSelectedRow(),0));
-		 * 
-		 * ArrayList<Fonte> fontes = new ArrayList<>(); FonteService service = new
-		 * FonteService(); fontes = service.getFontes(filtro);
-		 * FonteToForm.copia(fontes.get(0), frm);
-		 * 
-		 */
+
 		int firstIndex = e.getFirstIndex();
 
 		if (firstIndex >= 0 && firstIndex < frm.getTableFontes().getModel().getRowCount()) {

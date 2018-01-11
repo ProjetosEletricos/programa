@@ -15,9 +15,14 @@ public class FormToFonte {
 
 		Fonte fonte = new Fonte();
 
-		fonte.setId(Integer.parseInt(frm.getLblIdFonte().getText()));
+		if (!(frm.getLblIdFonte().getText().equals("0") || frm.getLblIdFonte().getText().equals(""))) {
+			fonte.setId(Integer.parseInt(frm.getLblIdFonte().getText()));
+		}
+
 		fonte.setConcessionaria(frm.getCbConcessionaria().getSelectedItem().toString());
-		fonte.setTensaoFN(Numero.stringToDouble(frm.getTxtTensaoFonte().getText()));
+		String stri = frm.getTxtTensaoFonte().getText();
+		double valor = Numero.stringToDouble(stri);
+		fonte.setTensaoFN(valor);
 
 		return fonte;
 	}

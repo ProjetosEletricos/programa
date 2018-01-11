@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import excel.Ler;
 
-
 public class Quadro {
 
 	private int id;
@@ -15,8 +14,9 @@ public class Quadro {
 	private double fd;
 	private double fp;
 	private String usabilidade;
+	private Quadro quadroPai;
 	// -----------------------------------------------
-	
+
 	private Condutor condutor;
 	private DadosCurtoCircuito dadosCurtoCircuito;
 	private ArrayList<Circuito> circuito;
@@ -46,8 +46,6 @@ public class Quadro {
 	private double correnteIBC;
 	private boolean neutroEquilibrado = false;
 
-
-
 	public Quadro(String nome, String local, String drGeral, double pot100PercDem, double fd, double fp,
 			String usabilidade) {
 		this.nome = nome;
@@ -57,18 +55,14 @@ public class Quadro {
 		this.fd = fd;
 		this.fp = fp;
 		this.usabilidade = usabilidade;
-		
+
 		circuito = new ArrayList<Circuito>();
 		quadro = new ArrayList<Quadro>();
 	}
 
-	
-
 	public Quadro() {
 		// TODO Auto-generated constructor stub
 	}
-
-
 
 	public void RemoverCarga(String quadro) {
 
@@ -90,13 +84,17 @@ public class Quadro {
 		return quadro;
 	}
 
-
-
 	public void addQuadro(Quadro quadro) {
 		this.quadro.add(quadro);
 	}
 
+	public Quadro getQuadroPai() {
+		return quadroPai;
+	}
 
+	public void setQuadroPai(Quadro quadroPai) {
+		this.quadroPai = quadroPai;
+	}
 
 	public double getPotDemAparente() {
 		return potDemAparente;
@@ -205,9 +203,5 @@ public class Quadro {
 
 		this.potDemAparente = potDemApaQuadro;
 	}
-
-
-
-
 
 }

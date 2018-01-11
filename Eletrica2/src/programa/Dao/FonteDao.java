@@ -27,7 +27,7 @@ public class FonteDao {
 
 		int id = 0;
 		try {
-			
+
 			id = daoHelper.executaDaoComRetornoDeChave(
 					"insert into fonte (idProjeto, concessionaria, tensaoNominalFN) values (?,?,?)", idProjeto,
 					fonte.getConcessionaria(), fonte.getTensaoFN());
@@ -68,15 +68,20 @@ public class FonteDao {
 			daoHelper.executaDaoSimplesNoContexto("delete from fonte where Id = ?", fonte.getId());
 
 		} catch (SQLException e) {
-			System.out.println("Erro em excluir");
+			System.out.println("Erro em excluir: ");
 			e.getMessage();
 			e.printStackTrace();
 		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("Erro em excluir");
+			System.out.println("Erro em excluir: ");
+			e.getMessage();
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			System.out.println("Erro em excluir: ");
 			e.getMessage();
 			e.printStackTrace();
 		}
 		daoHelper.endTransaction();
+
 	}
 
 	public ArrayList<Fonte> filtraFontes(HashMap<Object, Object> filtro) {
@@ -120,17 +125,4 @@ public class FonteDao {
 
 	}
 
-	public ArrayList<Fonte> registroEmBranco() {
-
-		ArrayList<Fonte> registro = new ArrayList<>();
-		Fonte fonte = new Fonte();
-
-		fonte.setId(0);
-		fonte.setConcessionaria("");
-		fonte.setTensaoFN(0);
-
-		registro.add(fonte);
-
-		return registro;
-	}
 }

@@ -30,11 +30,21 @@ import net.miginfocom.swing.MigLayout;
 import programa.Circuito;
 import programa.Fonte;
 import programa.Projeto;
+import programa.Quadro;
+import programa.janelas.fonte.FonteActionListener;
 import programa.janelas.fonte.FonteListSelectionListener;
+import programa.janelas.fonte.FontesKeyListener;
+import programa.janelas.fonte.extras.FonteApagarDados;
 import programa.janelas.fonte.extras.FonteTableModel;
 import programa.janelas.projeto.extras.ProjetoTableModel;
+import programa.janelas.quadro.QuadroActionListener;
+import programa.janelas.quadro.QuadroKeyListener;
+import programa.janelas.quadro.QuadroMouseListener;
+import programa.janelas.quadro.extras.QuadroApagarDados;
+import programa.janelas.quadro.extras.QuadroTableModel;
 import programa.servico.FonteService;
 import programa.servico.ProjetoService;
+import programa.servico.QuadroService;
 
 public class ProjetoFrm extends JInternalFrame {
 
@@ -72,7 +82,7 @@ public class ProjetoFrm extends JInternalFrame {
 	private JTextField txtNomeQuadro;
 	private JTextField txtLocalQuadro;
 	private JTextField txtFdQuadro;
-	private JTable tableQuadro;
+	private JTable tableQuadros;
 	private JTextField txtFpQuadro;
 	private JTextField txtComprimento;
 	private JTextField txtNomeEquipamento;
@@ -103,12 +113,13 @@ public class ProjetoFrm extends JInternalFrame {
 	private JButton btnSalvarEquipamento;
 	private JButton btnDeletarEquipamento;
 	private JButton btnCopiarEquipamento;
-	private JButton btnCopiarCircuito;
 	private JLabel lblIdCircuito;
+	private JButton btnCopiarCircuito;
 	private JButton btnExcluirCircuito;
 	private JButton btnSalvarCircuito;
 	private JTextPane txtDescricaoProjeto;
 	private JPanel panelFonte;
+	private JPanel panelQuadro;
 	private JLabel lblIdFonte;
 
 	public ProjetoFrm() {
@@ -248,7 +259,6 @@ public class ProjetoFrm extends JInternalFrame {
 		label_6.setBounds(12, 19, 154, 16);
 		panel_15.add(label_6);
 
-
 		JLabel label_9 = new JLabel("V");
 		label_9.setBounds(217, 20, 18, 16);
 		panel_15.add(label_9);
@@ -258,12 +268,13 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_15.add(label_10);
 
 		cbConcessionaria = new JComboBox<String>();
+		cbConcessionaria.setModel(new DefaultComboBoxModel<>(new String[] { "Light" }));
 		cbConcessionaria.setName("cbConcessionaria");
 		cbConcessionaria.setBounds(168, 42, 163, 24);
 		panel_15.add(cbConcessionaria);
 
 		txtTensaoFonte = new JTextField();
-		txtTensaoFonte.setName("txtTensao");
+		txtTensaoFonte.setName("txtTensaoFonte");
 		txtTensaoFonte.setHorizontalAlignment(SwingConstants.CENTER);
 		txtTensaoFonte.setColumns(10);
 		txtTensaoFonte.setBounds(168, 18, 45, 20);
@@ -275,18 +286,21 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_19.setLayout(new MigLayout("", "[][][]", "[]"));
 
 		btnSalvarFonte = new JButton("");
+		btnSalvarFonte.setName("btnSalvarFonte");
 		btnSalvarFonte.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/add1-24.png")));
 		btnSalvarFonte.setMaximumSize(new Dimension(30, 30));
 		btnSalvarFonte.setBackground(Color.GRAY);
 		panel_19.add(btnSalvarFonte, "cell 0 0");
 
 		btnExcluirFonte = new JButton("");
+		btnExcluirFonte.setName("btnExcluirFonte");
 		btnExcluirFonte.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/close24.png")));
 		btnExcluirFonte.setMaximumSize(new Dimension(30, 30));
 		btnExcluirFonte.setBackground(Color.GRAY);
 		panel_19.add(btnExcluirFonte, "cell 1 0");
 
 		btnCopiarFonte = new JButton("");
+		btnCopiarFonte.setName("btnCopiarFonte");
 		btnCopiarFonte.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/copy24.png")));
 		btnCopiarFonte.setMaximumSize(new Dimension(30, 30));
 		btnCopiarFonte.setBackground(Color.GRAY);
@@ -306,20 +320,21 @@ public class ProjetoFrm extends JInternalFrame {
 
 		tableFontes = new JTable();
 		scrollPane_4.setViewportView(tableFontes);
-		
+
 		lblIdFonte = new JLabel("");
+		lblIdFonte.setName("lblIdFonte");
 		lblIdFonte.setBounds(143, 17, 70, 15);
 		panelFonte.add(lblIdFonte);
 
-		JPanel panel_14 = new JPanel();
-		abas.addTab("Quadro", null, panel_14, null);
-		panel_14.setLayout(null);
+		panelQuadro = new JPanel();
+		abas.addTab("Quadro", null, panelQuadro, null);
+		panelQuadro.setLayout(null);
 
 		JPanel panel_16 = new JPanel();
 		panel_16.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Descri\u00E7\u00E3o",
 				TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		panel_16.setBounds(12, 43, 411, 288);
-		panel_14.add(panel_16);
+		panelQuadro.add(panel_16);
 		panel_16.setLayout(new MigLayout("", "[][grow][][grow]", "[][][][]"));
 
 		JLabel label_7 = new JLabel("Nome:");
@@ -350,6 +365,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_16.add(label_12, "cell 2 1,alignx trailing");
 
 		cbDrQuadro = new JComboBox<String>();
+		cbDrQuadro.setModel(new DefaultComboBoxModel<>(new String[] { "N\u00E3o", "Sim" }));
 		cbDrQuadro.setName("cbDrGeral");
 		panel_16.add(cbDrQuadro, "cell 3 1,growx");
 
@@ -357,6 +373,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_16.add(label_13, "cell 0 2,alignx trailing");
 
 		txtFdQuadro = new JTextField();
+		txtFdQuadro.setName("txtFdQuadro");
 		txtFdQuadro.setMaximumSize(new Dimension(100, 2147483647));
 		txtFdQuadro.setColumns(10);
 		panel_16.add(txtFdQuadro, "cell 1 2,growx");
@@ -365,6 +382,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_16.add(label_14, "cell 2 2,alignx trailing");
 
 		cbQuadroPai = new JComboBox<String>();
+		cbQuadroPai.setModel(new DefaultComboBoxModel<>(new String[] { "Nenhum" }));
 		cbQuadroPai.setName("cbQuadroPai");
 		panel_16.add(cbQuadroPai, "cell 3 2,growx");
 
@@ -372,6 +390,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_16.add(label_15, "cell 0 3,alignx trailing");
 
 		txtFpQuadro = new JTextField();
+		txtFpQuadro.setName("txtFpQuadro");
 		txtFpQuadro.setMaximumSize(new Dimension(100, 2147483647));
 		txtFpQuadro.setColumns(10);
 		panel_16.add(txtFpQuadro, "cell 1 3,growx");
@@ -381,43 +400,48 @@ public class ProjetoFrm extends JInternalFrame {
 				new TitledBorder(null, "Cadastrados", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		panel_17.setLayout(null);
 		panel_17.setBounds(427, 43, 248, 288);
-		panel_14.add(panel_17);
+		panelQuadro.add(panel_17);
 
 		JScrollPane scrollPane_5 = new JScrollPane();
 		scrollPane_5.setName("scrollPane");
 		scrollPane_5.setBounds(12, 17, 224, 259);
 		panel_17.add(scrollPane_5);
 
-		tableQuadro = new JTable();
-		scrollPane_5.setViewportView(tableQuadro);
+		tableQuadros = new JTable();
+		tableQuadros.setName("tableQuadros");
+		tableQuadros.setAutoscrolls(false);
+		scrollPane_5.setViewportView(tableQuadros);
 
 		JPanel panel_21 = new JPanel();
 		panel_21.setBounds(12, 0, 116, 43);
-		panel_14.add(panel_21);
+		panelQuadro.add(panel_21);
 		panel_21.setLayout(new MigLayout("", "[][][]", "[]"));
 
 		btnSalvarQuadro = new JButton("");
+		btnSalvarQuadro.setName("btnSalvarQuadro");
 		btnSalvarQuadro.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/add1-24.png")));
 		btnSalvarQuadro.setMaximumSize(new Dimension(30, 30));
 		btnSalvarQuadro.setBackground(Color.GRAY);
 		panel_21.add(btnSalvarQuadro, "cell 0 0");
 
 		btnExcluirQuadro = new JButton("");
+		btnExcluirQuadro.setName("btnExcluirQuadro");
 		btnExcluirQuadro.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/close24.png")));
 		btnExcluirQuadro.setMaximumSize(new Dimension(30, 30));
 		btnExcluirQuadro.setBackground(Color.GRAY);
 		panel_21.add(btnExcluirQuadro, "cell 1 0");
 
 		btnCopiarQuadro = new JButton("");
+		btnCopiarQuadro.setName("btnCopiarQuadro");
 		btnCopiarQuadro.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/copy24.png")));
 		btnCopiarQuadro.setMaximumSize(new Dimension(30, 30));
 		btnCopiarQuadro.setBackground(Color.GRAY);
 		panel_21.add(btnCopiarQuadro, "cell 2 0");
 
 		lblIdQuadro = new JLabel("");
-		lblIdQuadro.setName("lblIdFonte");
+		lblIdQuadro.setName("lblIdQuadro");
 		lblIdQuadro.setBounds(146, 15, 55, 16);
-		panel_14.add(lblIdQuadro);
+		panelQuadro.add(lblIdQuadro);
 
 		JPanel panel_4 = new JPanel();
 		abas.addTab("Circuito", null, panel_4, null);
@@ -570,18 +594,21 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_2.setLayout(new MigLayout("", "[][][]", "[]"));
 
 		btnSalvarCircuito = new JButton("");
+		btnSalvarCircuito.setName("btnSalvarCircuito");
 		btnSalvarCircuito.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/add1-24.png")));
 		btnSalvarCircuito.setMaximumSize(new Dimension(30, 30));
 		btnSalvarCircuito.setBackground(Color.GRAY);
 		panel_2.add(btnSalvarCircuito, "cell 0 0");
 
 		btnExcluirCircuito = new JButton("");
+		btnExcluirCircuito.setName("btnExcluirCircuito");
 		btnExcluirCircuito.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/close24.png")));
 		btnExcluirCircuito.setMaximumSize(new Dimension(30, 30));
 		btnExcluirCircuito.setBackground(Color.GRAY);
 		panel_2.add(btnExcluirCircuito, "cell 1 0");
 
 		btnCopiarCircuito = new JButton("");
+		btnCopiarCircuito.setName("btnCopiarCircuito");
 		btnCopiarCircuito.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/copy24.png")));
 		btnCopiarCircuito.setMaximumSize(new Dimension(30, 30));
 		btnCopiarCircuito.setBackground(Color.GRAY);
@@ -616,6 +643,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_22.setLayout(new MigLayout("", "[][][]", "[]"));
 
 		btnSalvarEquipamento = new JButton("");
+		btnSalvarEquipamento.setName("btnSalvarEquipamento");
 		btnSalvarEquipamento
 				.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/add1-24.png")));
 		btnSalvarEquipamento.setMaximumSize(new Dimension(30, 30));
@@ -623,6 +651,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_22.add(btnSalvarEquipamento, "cell 0 0");
 
 		btnDeletarEquipamento = new JButton("");
+		btnDeletarEquipamento.setName("btnDeletarEquipamento");
 		btnDeletarEquipamento
 				.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/close24.png")));
 		btnDeletarEquipamento.setMaximumSize(new Dimension(30, 30));
@@ -630,6 +659,7 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_22.add(btnDeletarEquipamento, "cell 1 0");
 
 		btnCopiarEquipamento = new JButton("");
+		btnCopiarEquipamento.setName("btnCopiarEquipamento");
 		btnCopiarEquipamento
 				.setIcon(new ImageIcon(ProjetoFrm.class.getResource("/programa/janelas/images/copy24.png")));
 		btnCopiarEquipamento.setMaximumSize(new Dimension(30, 30));
@@ -786,15 +816,46 @@ public class ProjetoFrm extends JInternalFrame {
 		this.tableProjetos.getSelectionModel().addListSelectionListener(new ProjetoListSelectionListener(this));
 		this.abas.addChangeListener(new ProjetoChangeListener(this));
 		this.tableFontes.getSelectionModel().addListSelectionListener(new FonteListSelectionListener(this));
+		this.cbQuadroPai.addMouseListener(new QuadroMouseListener(this));
+
+		new ProjetoActionListener(this);
+		new FontesKeyListener(this);
+		new FonteActionListener(this);
+		new QuadroKeyListener(this);
+		new QuadroActionListener(this);
+
 	}
-	
+
 	public void iniciaTabelaFontes() {
+
+		FonteApagarDados.formu(this);
 		FonteService service = new FonteService();
 		FonteTableModel model = new FonteTableModel();
-		HashMap<Object,Object> filtro = new HashMap<>();
-		filtro.put("idProjeto", Integer.parseInt(lblIdProjeto.getText()));
-		model.setFontes(service.getFontes(filtro));
-		this.tableFontes.setModel(model);
+		HashMap<Object, Object> filtro = new HashMap<>();
+		if (!(lblIdProjeto.getText().equals("") || lblIdProjeto.getText().equals("0"))) {
+			filtro.put("idProjeto", Integer.parseInt(lblIdProjeto.getText()));
+			model.setFontes(service.getFontes(filtro));
+			this.tableFontes.setModel(model);
+		} else {
+			this.tableFontes.setModel(new DefaultTableModel());
+		}
+
+	}
+
+	public void iniciaTabelaQuadros() {
+
+		QuadroApagarDados.formu(this);
+		QuadroService service = new QuadroService();
+		QuadroTableModel model = new QuadroTableModel();
+		HashMap<Object, Object> filtro = new HashMap<>();
+		if (!(lblIdFonte.getText().equals("") || lblIdFonte.getText().equals("0"))) {
+			filtro.put("idFonte", Integer.parseInt(lblIdFonte.getText()));
+			model.setQuadros(service.getQuadros(filtro));
+			this.tableQuadros.setModel(model);
+		} else {
+			this.tableQuadros.setModel(new DefaultTableModel());
+		}
+
 	}
 
 	public void iniciaTabelaProjetos() {
@@ -815,12 +876,29 @@ public class ProjetoFrm extends JInternalFrame {
 	public void removeCircuitoSelecionado() {
 		this.listCircuitos.remove(this.listCircuitos.getSelectedIndex());
 	}
-	
+
+	public void setQuadros(ArrayList<Quadro> quadros) {
+
+		QuadroTableModel model = new QuadroTableModel();
+		model.setQuadros(quadros);
+
+		this.tableQuadros.setModel(model);
+
+	}
+
+	public Quadro getSelectQuadro() {
+
+		int index = this.tableQuadros.getSelectedRow();
+		QuadroTableModel model = (QuadroTableModel) this.tableQuadros.getModel();
+		return model.getQuadro(index);
+
+	}
+
 	public void setFontes(ArrayList<Fonte> fontes) {
 
 		FonteTableModel model = new FonteTableModel();
 		model.setFontes(fontes);
-		this.tableFontes.setModel(new DefaultTableModel());
+
 		this.tableFontes.setModel(model);
 
 	}
@@ -833,20 +911,10 @@ public class ProjetoFrm extends JInternalFrame {
 
 	}
 
-	public void atualizarTabelaFontes() {
-
-		this.tableFontes.updateUI();
-		FonteService service = new FonteService();
-		ArrayList<Fonte> fontes = new ArrayList<>();
-		fontes = service.getFontes(new HashMap<>());
-		this.setFontes(fontes);
-	}
-
 	public void setProjetos(ArrayList<Projeto> projetos) {
 
 		ProjetoTableModel model = new ProjetoTableModel();
 		model.setProjetos(projetos);
-		this.tableProjetos.setModel(new DefaultTableModel());
 		this.tableProjetos.setModel(model);
 
 	}
@@ -857,15 +925,6 @@ public class ProjetoFrm extends JInternalFrame {
 		ProjetoTableModel model = (ProjetoTableModel) this.tableProjetos.getModel();
 		return model.getProjeto(index);
 
-	}
-
-	public void atualizarTabelaProjetos() {
-
-		this.tableProjetos.updateUI();
-		ProjetoService service = new ProjetoService();
-		ArrayList<Projeto> projetos = new ArrayList<>();
-		projetos = service.getProjetos(new HashMap<>());
-		this.setProjetos(projetos);
 	}
 
 	public void setPosicao() {
@@ -887,6 +946,14 @@ public class ProjetoFrm extends JInternalFrame {
 
 	public void setPanelFonte(JPanel panelFonte) {
 		this.panelFonte = panelFonte;
+	}
+
+	public JPanel getPanelQuadro() {
+		return panelQuadro;
+	}
+
+	public void setPanelQuadro(JPanel panelQuadro) {
+		this.panelQuadro = panelQuadro;
 	}
 
 	public JComboBox<String> getCbNCamadas() {
@@ -1121,12 +1188,12 @@ public class ProjetoFrm extends JInternalFrame {
 		this.txtFdQuadro = txtFdQuadro;
 	}
 
-	public JTable getTableQuadro() {
-		return tableQuadro;
+	public JTable getTableQuadros() {
+		return tableQuadros;
 	}
 
-	public void setTableQuadro(JTable tableQuadro) {
-		this.tableQuadro = tableQuadro;
+	public void setTableQuadros(JTable tableQuadro) {
+		this.tableQuadros = tableQuadro;
 	}
 
 	public JTextField getTxtFpQuadro() {

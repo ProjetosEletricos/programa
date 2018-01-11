@@ -2,65 +2,65 @@ package programa.janelas.quadro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-import programa.janelas.quadro.extras.Botao;
-import programa.janelas.quadro.extras.DesabilitaCampos;
-import programa.janelas.quadro.extras.Tabela;
+import javax.swing.DefaultComboBoxModel;
+
+import programa.Quadro;
+import programa.janelas.projeto.ProjetoFrm;
+import programa.janelas.quadro.extras.QuadroBotao;
+import programa.servico.QuadroService;
 
 public class QuadroActionListener implements ActionListener {
 
-	private QuadroFrm frm;
+	private ProjetoFrm frm;
 
-	public QuadroActionListener(QuadroFrm frm) {
+	public QuadroActionListener(ProjetoFrm frm) {
 		this.frm = frm;
-		adiciona_ActionListener();
-		DesabilitaCampos.formu(frm);
+		adicionaActionListener();
+
 	}
 
-	protected void adiciona_ActionListener() {
+	protected void adicionaActionListener() {
 
-		frm.getMntmExcluir().addActionListener(this);
-		frm.getMntmInserir().addActionListener(this);
-		frm.getMntmSalvar().addActionListener(this);
-		frm.getMntmCancelar().addActionListener(this);
-		frm.getMntmCopiar().addActionListener(this);
+		frm.getBtnCopiarQuadro().addActionListener(this);
+		frm.getBtnExcluirQuadro().addActionListener(this);
+		frm.getBtnSalvarQuadro().addActionListener(this);
+		frm.getCbQuadroPai().addActionListener(this);
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		System.out.println("event: "+ event);
 
-		int idFonte = 0;
+		int idFonte = Integer.parseInt(frm.getLblIdFonte().getText());
 
-		if (!(frm.getLblIdFonte().getText().equals("0") || frm.getLblIdFonte().getText().equals(""))) {
-			idFonte = Integer.parseInt(frm.getLblIdFonte().getText());
-		}
+		if (event.getSource() == frm.getBtnExcluirQuadro()) {
+			QuadroBotao.excluir(frm);
 
-		if (event.getActionCommand().equals("Inserir")) {
-			Botao.inserir(frm, idFonte);
-		} else if (event.getActionCommand().equals("Excluir")) {
-			Botao.excluir(frm);
-			atualizaTabela();
-		} else if (event.getActionCommand().equals("Salvar")) {
-			Botao.salvar(frm, idFonte);
-			atualizaTabela();
-		} else if (event.getActionCommand().equals("Cancelar")) {
-			Botao.cancelar(frm, idFonte);
-			atualizaTabela();
-		} else if (event.getActionCommand().equals("Copiar")) {
-			Botao.copiar(frm, idFonte);
-			atualizaTabela();
+		} else if (event.getSource() == frm.getBtnSalvarQuadro()) {
+			QuadroBotao.salvar(frm, idFonte);
+
+		} else if (event.getSource() == frm.getBtnCopiarQuadro()) {
+			QuadroBotao.copiar(frm, idFonte);
+
+		} else if (event.getSource() == frm.getCbQuadroPai()) {
+			System.out.println("teste");
+			List<Quadro> ls = new ArrayList<Quadro>();
+			QuadroService service = new QuadroService();
+			ls = service.getQuadros(new HashMap<>());
+			DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+			for (int i = 0; i < ls.size(); i++) {
+				model.addElement(ls.get(i).getNome());
+			}
+
+			frm.getCbQuadroPai().setModel(model);
+
 		}
 
 	}
-
-	public void atualizaTabela() {
-		HashMap<Object,Object> filtro = new HashMap<>();
-		filtro.put("idFonte", frm.getLblIdFonte().getText());
-		new Tabela(frm).filtra(filtro);
-	}
-
-
 
 }

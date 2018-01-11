@@ -12,11 +12,11 @@ public class FontesKeyListener implements KeyListener {
 
 	public FontesKeyListener(ProjetoFrm frm) {
 		this.frm = frm;
-		adicionarKeyListener();
+		this.adicionarKeyListener();
 
 	}
 
-	public void adicionarKeyListener() {
+	protected void adicionarKeyListener() {
 
 		frm.getTxtTensaoFonte().addKeyListener(this);
 

@@ -48,9 +48,9 @@ public class QuadroTableModel extends AbstractTableModel {
 			return quadro.getNome();
 		case 2:
 			return quadro.getLocal();
-		default:
-			return "";
+
 		}
+		return null;
 	}
 
 	@Override
@@ -88,6 +88,7 @@ public class QuadroTableModel extends AbstractTableModel {
 	public void Excluir(Quadro quadro) {
 		this.quadros.remove(quadro);
 		fireTableDataChanged();
+		fireTableRowsDeleted(0, getRowCount() - 1);
 	}
 
 	public void Excluir(int pos) {

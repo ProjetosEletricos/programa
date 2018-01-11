@@ -3,9 +3,9 @@ package programa.janelas.projeto.extras;
 import auxiliar.Data;
 import programa.janelas.projeto.ProjetoFrm;
 
-public class ApagarDados {
+public class ProjetoApagarDados {
 
-	private ApagarDados() {
+	private ProjetoApagarDados() {
 		throw new IllegalStateException("Utility class");
 	}
 

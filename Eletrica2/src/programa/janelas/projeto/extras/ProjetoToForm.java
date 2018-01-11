@@ -11,11 +11,12 @@ public class ProjetoToForm {
 	}
 
 	public static void copia(Projeto projeto, ProjetoFrm frm) {
-
-		frm.getTxtAutor().setText(projeto.getAutor());
-		frm.getTxtNomeProjeto().setText(projeto.getNome());
-		frm.getTxtDescricaoProjeto().setText(projeto.getDescricao());
-		frm.getTxtData().setText(Data.DataToString(projeto.getData()));
-		frm.getLblIdProjeto().setText(Integer.toString(projeto.getId()));
+		if (projeto != null) {
+			frm.getTxtAutor().setText(projeto.getAutor());
+			frm.getTxtNomeProjeto().setText(projeto.getNome());
+			frm.getTxtDescricaoProjeto().setText(projeto.getDescricao());
+			frm.getTxtData().setText(Data.DataToString(projeto.getData()));
+			frm.getLblIdProjeto().setText(Integer.toString(projeto.getId()));
+		}
 	}
 }

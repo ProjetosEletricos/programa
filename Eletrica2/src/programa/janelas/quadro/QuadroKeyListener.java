@@ -4,12 +4,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import programa.janelas.formatacao.ApenasNumero;
+import programa.janelas.projeto.ProjetoFrm;
 
 public class QuadroKeyListener implements KeyListener {
 
-	private QuadroFrm frm;
+	private ProjetoFrm frm;
 
-	public QuadroKeyListener(QuadroFrm frm) {
+	public QuadroKeyListener(ProjetoFrm frm) {
 		this.frm = frm;
 		adicionarKeyListener();
 
@@ -17,16 +18,16 @@ public class QuadroKeyListener implements KeyListener {
 
 	public void adicionarKeyListener() {
 
-		frm.getTxtFp().addKeyListener(this);
-		frm.getTxtFd().addKeyListener(this);
+		frm.getTxtFpQuadro().addKeyListener(this);
+		frm.getTxtFdQuadro().addKeyListener(this);
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent event) {
 
-		ApenasNumero.campo(event, "txtFd");
-		ApenasNumero.campo(event, "txtFp");
+		ApenasNumero.campo(event, "txtFdQuadro");
+		ApenasNumero.campo(event, "txtFpQuadro");
 
 	}
 

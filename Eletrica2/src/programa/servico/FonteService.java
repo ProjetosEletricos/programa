@@ -27,15 +27,9 @@ public class FonteService {
 
 	public void excluir(Fonte fonte) {
 
-		if (fonte.getId() != 0) {
-			dao.excluir(fonte);
-		}
-
+		dao.excluir(fonte);
 	}
 
-	public ArrayList<Fonte> registroEmBranco() {
-		return dao.registroEmBranco();
-	}
 
 	public ArrayList<Fonte> getFontes(HashMap<Object, Object> filtro) {
 

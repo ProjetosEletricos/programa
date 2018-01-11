@@ -1,11 +1,13 @@
 package programa.janelas.projeto.extras;
 
+import java.util.HashMap;
+
 import programa.janelas.projeto.ProjetoFrm;
 import programa.servico.ProjetoService;
 
-public class Botao {
+public class ProjetoBotao {
 
-	private Botao() {
+	private ProjetoBotao() {
 
 		throw new IllegalStateException("Utility class");
 	}
@@ -14,38 +16,41 @@ public class Botao {
 
 		ProjetoService service = new ProjetoService();
 		service.salvar(FormToProjeto.copia(frm));
-		frm.atualizarTabelaProjetos();
-		ApagarDados.formu(frm);
+		frm.setProjetos(service.getProjetos(new HashMap<>()));
+		ProjetoApagarDados.formu(frm);
 
 	}
 
 	public static void excluir(ProjetoFrm frm) {
+		if (!(frm.getTableProjetos().getSelectedRow() < 0)) {
+			new ProjetoService().excluir(frm.getSelectProjeto());
+		}
+		ProjetoService service = new ProjetoService();
+		frm.setProjetos(service.getProjetos(new HashMap<>()));
 
-		new ProjetoService().excluir(frm.getSelectProjeto());
-
-		frm.atualizarTabelaProjetos();
-
-		ApagarDados.formu(frm);
+		ProjetoApagarDados.formu(frm);
 
 	}
 
 	public static void inserir(ProjetoFrm frm) {
-		ApagarDados.formu(frm);
+		ProjetoApagarDados.formu(frm);
+		;
 
 	}
 
 	public static void cancelar(ProjetoFrm frm) {
 
-		ApagarDados.formu(frm);
+		ProjetoApagarDados.formu(frm);
 
 	}
 
 	public static void copiar(ProjetoFrm frm) {
+
 		ProjetoService service = new ProjetoService();
 		frm.getLblIdProjeto().setText("0");
 		service.salvar(FormToProjeto.copia(frm));
-		frm.atualizarTabelaProjetos();
-		ApagarDados.formu(frm);
+		frm.setProjetos(service.getProjetos(new HashMap<>()));
+		ProjetoApagarDados.formu(frm);
 
 	}
 
