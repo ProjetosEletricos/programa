@@ -21,9 +21,12 @@ public class FormToQuadro {
 		quadro.setFd(Numero.stringToDouble((frm.getTxtFdQuadro().getText())));
 		quadro.setFp(Numero.stringToDouble((frm.getTxtFpQuadro().getText())));
 		quadro.setLocal(frm.getTxtLocalQuadro().getText());
-		quadro.setUsabilidade(frm.getCbUsabilidade().getSelectedItem().toString());
-		quadro.setQuadroPai(frm.getCbQuadroPai().getSelectedItem());
-
+		quadro.setUsabilidade(frm.getCbUsabilidadeQuadro().getSelectedItem().toString());
+		if(frm.getCbQuadroPai().getModel().getSelectedItem() != null) {
+		quadro.setQuadroPai((Quadro)frm.getCbQuadroPai().getSelectedItem());
+		}else {
+		//quadro.setQuadroPai((Quadro)frm.getCbQuadroPai().getModel().getSelectedItem());
+		}
 		return quadro;
 	}
 }

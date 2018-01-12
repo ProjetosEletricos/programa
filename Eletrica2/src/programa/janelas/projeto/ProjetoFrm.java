@@ -39,6 +39,7 @@ import programa.janelas.fonte.extras.FonteTableModel;
 import programa.janelas.projeto.extras.ProjetoTableModel;
 import programa.janelas.quadro.QuadroActionListener;
 import programa.janelas.quadro.QuadroKeyListener;
+import programa.janelas.quadro.QuadroListSelectionListener;
 import programa.janelas.quadro.QuadroPopupMenuListener;
 import programa.janelas.quadro.extras.QuadroApagarDados;
 import programa.janelas.quadro.extras.QuadroTableModel;
@@ -154,7 +155,7 @@ public class ProjetoFrm extends JInternalFrame {
 
 		JPanel panel_11 = new JPanel();
 		panel_11.setBorder(null);
-		panel_11.setBounds(8, 17, 179, 87);
+		panel_11.setBounds(8, 17, 179, 103);
 		panel_10.add(panel_11);
 		panel_11.setLayout(new MigLayout("", "[][grow]", "[][][]"));
 
@@ -184,11 +185,11 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_11.add(txtAutor, "cell 1 2,growx");
 
 		JLabel label_1 = new JLabel("Descri\u00E7\u00E3o:");
-		label_1.setBounds(17, 105, 88, 15);
+		label_1.setBounds(18, 120, 88, 15);
 		panel_10.add(label_1);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(18, 122, 159, 150);
+		scrollPane.setBounds(18, 136, 159, 136);
 		panel_10.add(scrollPane);
 
 		txtDescricaoProjeto = new JTextPane();
@@ -277,7 +278,7 @@ public class ProjetoFrm extends JInternalFrame {
 		txtTensaoFonte.setName("txtTensaoFonte");
 		txtTensaoFonte.setHorizontalAlignment(SwingConstants.CENTER);
 		txtTensaoFonte.setColumns(10);
-		txtTensaoFonte.setBounds(168, 18, 45, 20);
+		txtTensaoFonte.setBounds(168, 18, 45, 22);
 		panel_15.add(txtTensaoFonte);
 
 		JPanel panel_19 = new JPanel();
@@ -382,7 +383,6 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_16.add(label_14, "cell 2 2,alignx trailing");
 
 		cbQuadroPai = new JComboBox<String>();
-		cbQuadroPai.setModel(new DefaultComboBoxModel<>(new String[] { "Nenhum" }));
 		cbQuadroPai.setName("cbQuadroPai");
 		panel_16.add(cbQuadroPai, "cell 3 2,growx");
 
@@ -814,6 +814,7 @@ public class ProjetoFrm extends JInternalFrame {
 		this.iniciaTabelaProjetos();
 		this.txtData.setText(Data.Atual());
 		this.tableProjetos.getSelectionModel().addListSelectionListener(new ProjetoListSelectionListener(this));
+		this.tableQuadros.getSelectionModel().addListSelectionListener(new QuadroListSelectionListener(this));
 		this.abas.addChangeListener(new ProjetoChangeListener(this));
 		this.tableFontes.getSelectionModel().addListSelectionListener(new FonteListSelectionListener(this));
 		this.cbQuadroPai.addPopupMenuListener(new QuadroPopupMenuListener(this));
@@ -1354,13 +1355,6 @@ public class ProjetoFrm extends JInternalFrame {
 		this.lblIdQuadro = lblIdQuadro;
 	}
 
-	public JComboBox<String> getCbUsabilidade() {
-		return cbUsabilidade;
-	}
-
-	public void setCbUsabilidade(JComboBox<String> cbUsabilidade) {
-		this.cbUsabilidade = cbUsabilidade;
-	}
 
 	public JComboBox<String> getCbUnidadePotEquipa() {
 		return cbUnidadePotEquipa;

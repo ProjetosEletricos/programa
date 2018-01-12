@@ -13,7 +13,7 @@ public class QuadroApagarDados {
 		frm.getLblIdQuadro().setText("0");
 		frm.getTxtNomeQuadro().setText("");
 		frm.getCbDrQuadro().setSelectedItem(null);
-		frm.getCbUsabilidade().setSelectedItem(null);
+		frm.getCbUsabilidadeQuadro().setSelectedItem(null);
 		frm.getTxtFdQuadro().setText("");
 		frm.getTxtFpQuadro().setText("");
 		frm.getTxtLocalQuadro().setText("");

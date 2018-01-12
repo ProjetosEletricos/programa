@@ -32,10 +32,12 @@ public class QuadroPopupMenuListener implements javax.swing.event.PopupMenuListe
 
 	@Override
 	public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-		System.out.println("teste");
+
 		List<Quadro> ls = new ArrayList<Quadro>();
 		QuadroService service = new QuadroService();
-		ls = service.getQuadros(new HashMap<>());
+		HashMap<Object,Object> filtro = new HashMap<>();
+		filtro.put("idFonte", frm.getLblIdFonte().getText());
+		ls = service.getQuadros(filtro);
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
 		for (int i = 0; i < ls.size(); i++) {
 			model.addElement(ls.get(i).getNome());

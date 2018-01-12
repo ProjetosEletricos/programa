@@ -28,6 +28,5 @@ public class FonteListSelectionListener implements ListSelectionListener {
 			FonteToForm.copia(fonte, frm);
 
 		}
-
 	}
 }

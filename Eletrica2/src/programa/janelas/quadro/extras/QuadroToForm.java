@@ -18,7 +18,7 @@ public class QuadroToForm {
 			frm.getTxtFdQuadro().setText(Numero.decimal(quadro.getFd(), "0"));
 			frm.getTxtFpQuadro().setText(Numero.decimal(quadro.getFp(), "0"));
 			frm.getTxtLocalQuadro().setText(quadro.getLocal());
-			frm.getCbUsabilidade().setSelectedItem(quadro.getUsabilidade());
+			frm.getCbUsabilidadeQuadro().setSelectedItem(quadro.getUsabilidade());
 		}
 	}
 }
