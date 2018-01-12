@@ -99,7 +99,7 @@ public class ProjetoFrm extends JInternalFrame {
 	private JComboBox<String> cbConcessionaria;
 	private JComboBox<String> cbUsabilidadeQuadro;
 	private JComboBox<String> cbDrQuadro;
-	private JComboBox<String> cbQuadroPai;
+	private JComboBox<Quadro> cbQuadroPai;
 	private JButton btnSalvarQuadro;
 	private JButton btnExcluirQuadro;
 	private JButton btnCopiarQuadro;
@@ -382,7 +382,7 @@ public class ProjetoFrm extends JInternalFrame {
 		JLabel label_14 = new JLabel("Quadro pai:");
 		panel_16.add(label_14, "cell 2 2,alignx trailing");
 
-		cbQuadroPai = new JComboBox<String>();
+		cbQuadroPai = new JComboBox<Quadro>();
 		cbQuadroPai.setName("cbQuadroPai");
 		panel_16.add(cbQuadroPai, "cell 3 2,growx");
 
@@ -824,7 +824,7 @@ public class ProjetoFrm extends JInternalFrame {
 		new QuadroActionListener(this);
 
 	}
-
+	
 	public void iniciaTabelaFontes() {
 
 		FonteApagarDados.formu(this);
@@ -1315,11 +1315,11 @@ public class ProjetoFrm extends JInternalFrame {
 		this.cbDrQuadro = cbDrQuadro;
 	}
 
-	public JComboBox<String> getCbQuadroPai() {
+	public JComboBox<Quadro> getCbQuadroPai() {
 		return cbQuadroPai;
 	}
 
-	public void setCbQuadroPai(JComboBox<String> cbQuadroPai) {
+	public void setCbQuadroPai(JComboBox<Quadro> cbQuadroPai) {
 		this.cbQuadroPai = cbQuadroPai;
 	}
 

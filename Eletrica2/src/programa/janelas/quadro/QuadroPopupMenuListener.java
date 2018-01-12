@@ -38,9 +38,9 @@ public class QuadroPopupMenuListener implements javax.swing.event.PopupMenuListe
 		HashMap<Object,Object> filtro = new HashMap<>();
 		filtro.put("idFonte", frm.getLblIdFonte().getText());
 		ls = service.getQuadros(filtro);
-		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+		DefaultComboBoxModel<Quadro> model = new DefaultComboBoxModel<>();
 		for (int i = 0; i < ls.size(); i++) {
-			model.addElement(ls.get(i).getNome());
+			model.addElement(ls.get(i));
 		}
 
 		frm.getCbQuadroPai().setModel(model);

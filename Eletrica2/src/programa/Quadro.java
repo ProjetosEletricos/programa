@@ -71,6 +71,12 @@ public class Quadro {
 		this.ordenaPorLinhaDecr(this.matrizQuadro, 14);
 		this.lerDadosQuadro();
 	}
+	
+	 @Override
+	   public String toString(){
+	       return this.nome;
+	   }
+
 
 	public ArrayList<Circuito> getCircuito() {
 		return circuito;

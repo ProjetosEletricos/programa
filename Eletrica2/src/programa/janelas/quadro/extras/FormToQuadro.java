@@ -5,6 +5,8 @@ import programa.Quadro;
 import programa.janelas.projeto.ProjetoFrm;
 
 public class FormToQuadro {
+	
+	private static Quadro quadro;
 
 	private FormToQuadro() {
 
@@ -13,7 +15,7 @@ public class FormToQuadro {
 
 	public static Quadro copia(ProjetoFrm frm) {
 
-		Quadro quadro = new Quadro();
+		quadro = new Quadro();
 
 		quadro.setId(Integer.parseInt(frm.getLblIdQuadro().getText()));
 		quadro.setNome(frm.getTxtNomeQuadro().getText());
@@ -24,8 +26,6 @@ public class FormToQuadro {
 		quadro.setUsabilidade(frm.getCbUsabilidadeQuadro().getSelectedItem().toString());
 		if(frm.getCbQuadroPai().getModel().getSelectedItem() != null) {
 		quadro.setQuadroPai((Quadro)frm.getCbQuadroPai().getSelectedItem());
-		}else {
-		//quadro.setQuadroPai((Quadro)frm.getCbQuadroPai().getModel().getSelectedItem());
 		}
 		return quadro;
 	}
