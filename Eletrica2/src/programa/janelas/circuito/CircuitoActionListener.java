@@ -2,69 +2,42 @@ package programa.janelas.circuito;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
-import programa.janelas.circuito.extras.Botao;
-import programa.janelas.circuito.extras.DesabilitaCampos;
-import programa.janelas.circuito.extras.Tabela1;
+import programa.janelas.projeto.ProjetoFrm;
+import programa.janelas.quadro.extras.QuadroBotao;
 
 public class CircuitoActionListener implements ActionListener {
 
-	private CircuitoFrm frm;
+	private ProjetoFrm frm;
 
-	public CircuitoActionListener(CircuitoFrm frm) {
+	public CircuitoActionListener(ProjetoFrm frm) {
 		this.frm = frm;
-		adiciona_ActionListener();
-		DesabilitaCampos.formu(frm);
+		adicionaActionListener();
+
 	}
 
-	protected void adiciona_ActionListener() {
+	protected void adicionaActionListener() {
 
-		frm.getMntmExcluir().addActionListener(this);
-		frm.getMntmInserir().addActionListener(this);
-		frm.getMntmSalvar().addActionListener(this);
-		frm.getMntmCancelar().addActionListener(this);
-		frm.getMntmCopiar().addActionListener(this);
+		frm.getBtnCopiarCircuito().addActionListener(this);
+		frm.getBtnExcluirCircuito().addActionListener(this);
+		frm.getBtnSalvarCircuito().addActionListener(this);
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+System.out.println("teste");
+		int idQuadro = Integer.parseInt(frm.getLblIdQuadro().getText());
 
-		int idQuadro = 0;
+		if (event.getSource() == frm.getBtnExcluirCircuito()) {
+			QuadroBotao.excluir(frm);
 
-		if (!(frm.getLblIdQuadro().getText().equals("0") || frm.getLblIdQuadro().getText().equals(""))) {
-			idQuadro = Integer.parseInt(frm.getLblIdQuadro().getText());
+		} else if (event.getSource() == frm.getBtnSalvarCircuito()) {
+			QuadroBotao.salvar(frm, idQuadro);
+
+		} else if (event.getSource() == frm.getBtnCopiarCircuito()) {
+			QuadroBotao.copiar(frm, idQuadro);
+
 		}
-
-		if (event.getActionCommand().equals("Inserir")) {
-			Botao.inserir(frm, idQuadro);
-		} else if (event.getActionCommand().equals("Excluir")) {
-			Botao.excluir(frm);
-			atualizaTabela();
-		} else if (event.getActionCommand().equals("Salvar")) {
-			Botao.salvar(frm, idQuadro);
-			atualizaLista();
-		} else if (event.getActionCommand().equals("Cancelar")) {
-			Botao.cancelar(frm, idQuadro);
-			atualizaTabela();
-		} else if (event.getActionCommand().equals("Copiar")) {
-			Botao.copiar(frm, idQuadro);
-			atualizaTabela();
-		}
-
 	}
-
-	public void atualizaTabela() {
-		HashMap<Object, Object> filtro = new HashMap<>();
-		filtro.put("idQuadro", frm.getLblIdQuadro().getText());
-		new Tabela1(frm).filtra(filtro);
-	}
-
-	public void atualizaLista() {
-		HashMap<Object, Object> filtro = new HashMap<>();
-		filtro.put("idQuadro", frm.getLblIdQuadro().getText());
-		// new Lista(frm).filtra(filtro);
-	}
-
 }

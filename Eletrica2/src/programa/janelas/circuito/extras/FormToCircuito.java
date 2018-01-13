@@ -1,20 +1,23 @@
 package programa.janelas.circuito.extras;
 
 import programa.Circuito;
-import programa.janelas.circuito.CircuitoFrm;
+import programa.janelas.projeto.ProjetoFrm;
 
 public class FormToCircuito {
 
-	public static Circuito copia(CircuitoFrm frmCir) {
+	private FormToCircuito() {
+
+		throw new IllegalStateException("Utility class");
+	}
+
+	public static Circuito copia(ProjetoFrm frm) {
 
 		Circuito circuito = new Circuito();
 
-		if (!(frmCir.getLblIdcircuito().getText().equals("0"))) {
-			circuito.setId(Integer.parseInt(frmCir.getLblIdcircuito().getText()));
-		}
-
-		circuito.setNome(frmCir.getTxtNome().getText());
+		circuito.setId(Integer.parseInt(frm.getLblIdCircuito().getText()));
+		circuito.setNome(frm.getTxtNomeCircuito().getText());
 
 		return circuito;
 	}
+
 }

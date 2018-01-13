@@ -4,12 +4,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import programa.janelas.formatacao.ApenasNumero;
+import programa.janelas.projeto.ProjetoFrm;
 
 public class CircuitoKeyListener implements KeyListener {
 
-	private CircuitoFrm frm;
+	private ProjetoFrm frm;
 
-	public CircuitoKeyListener(CircuitoFrm frm) {
+	public CircuitoKeyListener(ProjetoFrm frm) {
 		this.frm = frm;
 		adicionarKeyListener();
 
@@ -17,7 +18,7 @@ public class CircuitoKeyListener implements KeyListener {
 
 	public void adicionarKeyListener() {
 
-		frm.getTxtdistAlimentador().addKeyListener(this);
+		frm.getTxtComprimento().addKeyListener(this);
 		frm.getTxtQTensao().addKeyListener(this);
 		frm.getTxtResistividaeTerm().addKeyListener(this);
 		frm.getTxtTemperatura().addKeyListener(this);
@@ -27,10 +28,10 @@ public class CircuitoKeyListener implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent event) {
 
-		ApenasNumero.campo(event, "txtdistAlimentador");
-		ApenasNumero.campo(event, "txtQTensao");
-		ApenasNumero.campo(event, "txtResistividaeTerm");
-		ApenasNumero.campo(event, "txtTemperatura");
+		ApenasNumero.campo(event, "txtComprimentoCircuito");
+		ApenasNumero.campo(event, "txtQTensaoCircuito");
+		ApenasNumero.campo(event, "txtResistividadeTermCircuito");
+		ApenasNumero.campo(event, "txtTemperaturaCircuito");
 
 	}
 

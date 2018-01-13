@@ -48,7 +48,6 @@ public class QuadroTableModel extends AbstractTableModel {
 			return quadro.getNome();
 		case 2:
 			return quadro.getLocal();
-
 		}
 		return null;
 	}

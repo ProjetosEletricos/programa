@@ -2,8 +2,6 @@ package programa;
 
 import java.util.ArrayList;
 
-import excel.Ler;
-
 public class Quadro {
 
 	private int id;
@@ -64,19 +62,10 @@ public class Quadro {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void RemoverCarga(String quadro) {
-
-		this.setQuadro(new ArrayList<Quadro>());
-		this.matrizQuadro = new Ler(("Quadros/" + nome + ".csv")).lerTabela();
-		this.ordenaPorLinhaDecr(this.matrizQuadro, 14);
-		this.lerDadosQuadro();
+	@Override
+	public String toString() {
+		return this.nome;
 	}
-	
-	 @Override
-	   public String toString(){
-	       return this.nome;
-	   }
-
 
 	public ArrayList<Circuito> getCircuito() {
 		return circuito;

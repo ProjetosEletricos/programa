@@ -31,6 +31,10 @@ import programa.Circuito;
 import programa.Fonte;
 import programa.Projeto;
 import programa.Quadro;
+import programa.janelas.circuito.CircuitoActionListener;
+import programa.janelas.circuito.CircuitoKeyListener;
+import programa.janelas.circuito.CircuitoListSelectionListener;
+import programa.janelas.circuito.extras.CircuitoApagarDados;
 import programa.janelas.fonte.FonteActionListener;
 import programa.janelas.fonte.FonteListSelectionListener;
 import programa.janelas.fonte.FontesKeyListener;
@@ -43,6 +47,7 @@ import programa.janelas.quadro.QuadroListSelectionListener;
 import programa.janelas.quadro.QuadroPopupMenuListener;
 import programa.janelas.quadro.extras.QuadroApagarDados;
 import programa.janelas.quadro.extras.QuadroTableModel;
+import programa.servico.CircuitoService;
 import programa.servico.FonteService;
 import programa.servico.ProjetoService;
 import programa.servico.QuadroService;
@@ -70,9 +75,9 @@ public class ProjetoFrm extends JInternalFrame {
 
 	@SuppressWarnings("unused")
 	private static ProjetoActionListener listener;
-	private JTextField txtQTensao;
-	private JTextField txtResistividaeTerm;
-	private JTextField txtTemperatura;
+	private JTextField txtQTensaoCircuito;
+	private JTextField txtResistividadeTermCircuito;
+	private JTextField txtTemperaturaCircuito;
 	private JTable tableEquipamentoGeral;
 	private JTextField txtNomeProjeto;
 	private JTextField txtData;
@@ -85,7 +90,7 @@ public class ProjetoFrm extends JInternalFrame {
 	private JTextField txtFdQuadro;
 	private JTable tableQuadros;
 	private JTextField txtFpQuadro;
-	private JTextField txtComprimento;
+	private JTextField txtComprimentoCircuito;
 	private JTextField txtNomeEquipamento;
 	private JTextField txtLocalEquipamento;
 	private JTextField txtPotenciaEquipamento;
@@ -104,7 +109,7 @@ public class ProjetoFrm extends JInternalFrame {
 	private JButton btnExcluirQuadro;
 	private JButton btnCopiarQuadro;
 	private JLabel lblIdQuadro;
-	private JComboBox<String> cbUsabilidade;
+
 	private JComboBox<String> cbUnidadePotEquipa;
 	private JComboBox<Object> cbLigacaoEquipamento;
 	private JButton btnSalvarFonte;
@@ -122,6 +127,9 @@ public class ProjetoFrm extends JInternalFrame {
 	private JPanel panelFonte;
 	private JPanel panelQuadro;
 	private JLabel lblIdFonte;
+	private JTextField txtNomeCircuito;
+	private JLabel lblIdCondutor;
+	private JPanel panelCircuito;
 
 	public ProjetoFrm() {
 		setClosable(true);
@@ -443,16 +451,16 @@ public class ProjetoFrm extends JInternalFrame {
 		lblIdQuadro.setBounds(146, 15, 55, 16);
 		panelQuadro.add(lblIdQuadro);
 
-		JPanel panel_4 = new JPanel();
-		abas.addTab("Circuito", null, panel_4, null);
+		panelCircuito = new JPanel();
+		abas.addTab("Circuito", null, panelCircuito, null);
 		abas.setEnabledAt(3, true);
-		panel_4.setLayout(null);
+		panelCircuito.setLayout(null);
 
 		JPanel panel_6 = new JPanel();
 		panel_6.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Cadastrados",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 255)));
 		panel_6.setBounds(558, 43, 117, 290);
-		panel_4.add(panel_6);
+		panelCircuito.add(panel_6);
 		panel_6.setLayout(null);
 
 		JScrollPane scrollLista = new JScrollPane();
@@ -468,17 +476,22 @@ public class ProjetoFrm extends JInternalFrame {
 		panel_8.setBorder(
 				new TitledBorder(null, "Propriedades", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
 		panel_8.setBounds(12, 43, 542, 288);
-		panel_4.add(panel_8);
+		panelCircuito.add(panel_8);
 		panel_8.setLayout(new MigLayout("", "[][grow][][]", "[][][][][][][][]"));
 
 		JLabel lblComprimento = new JLabel("Nome:");
-		panel_8.add(lblComprimento, "cell 0 0");
+		panel_8.add(lblComprimento, "cell 0 0,alignx left");
+
+		txtNomeCircuito = new JTextField();
+		txtNomeCircuito.setName("txtNomeCircuito");
+		txtNomeCircuito.setColumns(3);
+		panel_8.add(txtNomeCircuito, "cell 1 0,growx");
 
 		JLabel lblEnterrado = new JLabel("Enterrado:");
 		panel_8.add(lblEnterrado, "cell 2 0");
 
 		cbEnterrado = new JComboBox<String>();
-		panel_8.add(cbEnterrado, "cell 3 0");
+		panel_8.add(cbEnterrado, "cell 3 0,growx");
 		cbEnterrado.setModel(new DefaultComboBoxModel<String>(new String[] { "N\u00E3o", "Sim" }));
 		cbEnterrado.setName("cbEnterrado");
 
@@ -487,14 +500,14 @@ public class ProjetoFrm extends JInternalFrame {
 
 		txtmodoInstalacao = new JComboBox<>();
 		txtmodoInstalacao.setModel(new DefaultComboBoxModel<>(new String[] { "B1", "F" }));
-		panel_8.add(txtmodoInstalacao, "cell 1 1");
+		panel_8.add(txtmodoInstalacao, "cell 1 1,growx");
 		txtmodoInstalacao.setName("txtmodoInstalacao");
 
 		JLabel lblEspaoEntreCabos = new JLabel("Espa\u00E7o entre cabos:");
 		panel_8.add(lblEspaoEntreCabos, "cell 2 1");
 
 		cbEspacoCabos = new JComboBox<String>();
-		panel_8.add(cbEspacoCabos, "cell 3 1,alignx left");
+		panel_8.add(cbEspacoCabos, "cell 3 1,growx");
 		cbEspacoCabos.setModel(new DefaultComboBoxModel<String>(new String[] { "modo1", "modo2" }));
 		cbEspacoCabos.setName("cbEspacoCabos");
 
@@ -503,24 +516,24 @@ public class ProjetoFrm extends JInternalFrame {
 
 		txtMaterial = new JComboBox<>();
 		txtMaterial.setModel(new DefaultComboBoxModel<>(new String[] { "Cobre", "Alum\u00EDnio" }));
-		panel_8.add(txtMaterial, "cell 1 2");
+		panel_8.add(txtMaterial, "cell 1 2,growx");
 		txtMaterial.setName("txtMaterial");
 
 		JLabel lblMultipolar = new JLabel("Multipolar:");
 		panel_8.add(lblMultipolar, "cell 2 2");
 
 		cbMultipolar = new JComboBox<String>();
-		panel_8.add(cbMultipolar, "cell 3 2");
+		panel_8.add(cbMultipolar, "cell 3 2,growx");
 		cbMultipolar.setModel(new DefaultComboBoxModel<String>(new String[] { "N\u00E3o", "Sim" }));
 		cbMultipolar.setName("cbMultipolar");
 
 		JLabel lblQuedaTenso = new JLabel("Queda tens\u00E3o:");
 		panel_8.add(lblQuedaTenso, "cell 0 3");
 
-		txtQTensao = new JTextField();
-		panel_8.add(txtQTensao, "cell 1 3");
-		txtQTensao.setName("txtQTensao");
-		txtQTensao.setColumns(3);
+		txtQTensaoCircuito = new JTextField();
+		panel_8.add(txtQTensaoCircuito, "cell 1 3,growx");
+		txtQTensaoCircuito.setName("txtQTensaoCircuito");
+		txtQTensaoCircuito.setColumns(3);
 
 		JLabel lblFormaDeAgrupamento = new JLabel("Forma de agrupamento:");
 		panel_8.add(lblFormaDeAgrupamento, "cell 2 3");
@@ -535,30 +548,30 @@ public class ProjetoFrm extends JInternalFrame {
 
 		txtIsolacao = new JComboBox<>();
 		txtIsolacao.setModel(new DefaultComboBoxModel<>(new String[] { "PVC", "XLPE" }));
-		panel_8.add(txtIsolacao, "cell 1 4");
+		panel_8.add(txtIsolacao, "cell 1 4,growx");
 		txtIsolacao.setName("txtIsolacao");
 
 		JLabel lblSicessivas = new JLabel("Bitolas sucessivas:");
 		panel_8.add(lblSicessivas, "cell 2 4");
 
 		cbBitolasSuessivas = new JComboBox<String>();
-		panel_8.add(cbBitolasSuessivas, "cell 3 4");
+		panel_8.add(cbBitolasSuessivas, "cell 3 4,growx");
 		cbBitolasSuessivas.setName("cbBitolasSuessivas");
 		cbBitolasSuessivas.setModel(new DefaultComboBoxModel<String>(new String[] { "Sim", "N\u00E3o" }));
 
 		JLabel lblResistividadeTrmica = new JLabel("Resistividade t\u00E9rmica:");
 		panel_8.add(lblResistividadeTrmica, "cell 0 5");
 
-		txtResistividaeTerm = new JTextField();
-		panel_8.add(txtResistividaeTerm, "cell 1 5");
-		txtResistividaeTerm.setName("txtResistividaeTerm");
-		txtResistividaeTerm.setColumns(3);
+		txtResistividadeTermCircuito = new JTextField();
+		panel_8.add(txtResistividadeTermCircuito, "cell 1 5,growx");
+		txtResistividadeTermCircuito.setName("txtResistividadeTermCircuito");
+		txtResistividadeTermCircuito.setColumns(3);
 
 		JLabel lblNDeCircuitos = new JLabel("N\u00B0 de circuitos agrup.:");
 		panel_8.add(lblNDeCircuitos, "cell 2 5");
 
 		cbCirAgrupados = new JComboBox<String>();
-		panel_8.add(cbCirAgrupados, "cell 3 5");
+		panel_8.add(cbCirAgrupados, "cell 3 5,growx");
 		cbCirAgrupados.setName("cbCirAgrupados");
 		cbCirAgrupados.setModel(
 				new DefaultComboBoxModel<String>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
@@ -566,16 +579,16 @@ public class ProjetoFrm extends JInternalFrame {
 		JLabel lblTemperatura = new JLabel("Temperatura (\u00B0C):");
 		panel_8.add(lblTemperatura, "cell 0 6");
 
-		txtTemperatura = new JTextField();
-		panel_8.add(txtTemperatura, "cell 1 6");
-		txtTemperatura.setName("txtTemperatura");
-		txtTemperatura.setColumns(3);
+		txtTemperaturaCircuito = new JTextField();
+		panel_8.add(txtTemperaturaCircuito, "cell 1 6,growx");
+		txtTemperaturaCircuito.setName("txtTemperaturaCircuito");
+		txtTemperaturaCircuito.setColumns(3);
 
 		JLabel lblNDeCamadas = new JLabel("N\u00B0 de camadas:");
 		panel_8.add(lblNDeCamadas, "cell 2 6");
 
 		cbNCamadas = new JComboBox<String>();
-		panel_8.add(cbNCamadas, "cell 3 6");
+		panel_8.add(cbNCamadas, "cell 3 6,growx");
 		cbNCamadas.setModel(
 				new DefaultComboBoxModel<String>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9" }));
 		cbNCamadas.setName("cbNCamadas");
@@ -583,14 +596,14 @@ public class ProjetoFrm extends JInternalFrame {
 		JLabel label_16 = new JLabel("Comprimento (m):");
 		panel_8.add(label_16, "cell 0 7,alignx left");
 
-		txtComprimento = new JTextField();
-		txtComprimento.setName("txtTemperatura");
-		txtComprimento.setColumns(3);
-		panel_8.add(txtComprimento, "cell 1 7,alignx left");
+		txtComprimentoCircuito = new JTextField();
+		txtComprimentoCircuito.setName("txtTemperaturaCircuito");
+		txtComprimentoCircuito.setColumns(3);
+		panel_8.add(txtComprimentoCircuito, "cell 1 7,growx");
 
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(12, 0, 116, 43);
-		panel_4.add(panel_2);
+		panelCircuito.add(panel_2);
 		panel_2.setLayout(new MigLayout("", "[][][]", "[]"));
 
 		btnSalvarCircuito = new JButton("");
@@ -616,7 +629,12 @@ public class ProjetoFrm extends JInternalFrame {
 
 		lblIdCircuito = new JLabel("");
 		lblIdCircuito.setBounds(146, 16, 70, 15);
-		panel_4.add(lblIdCircuito);
+		panelCircuito.add(lblIdCircuito);
+
+		lblIdCondutor = new JLabel("");
+		lblIdCondutor.setName("lblIdCondutor");
+		lblIdCondutor.setBounds(226, 16, 70, 15);
+		panelCircuito.add(lblIdCondutor);
 
 		JPanel panel_5 = new JPanel();
 		abas.addTab("Equipamento", null, panel_5, null);
@@ -707,12 +725,6 @@ public class ProjetoFrm extends JInternalFrame {
 
 		JLabel lblNewLabel_1 = new JLabel("Usabilidade:");
 		panel_7.add(lblNewLabel_1, "cell 0 2,alignx left");
-
-		cbUsabilidade = new JComboBox<>();
-		cbUsabilidade.setMaximumSize(new Dimension(130, 32767));
-		cbUsabilidade.setMinimumSize(new Dimension(4, 24));
-		cbUsabilidade.setModel(new DefaultComboBoxModel<>(new String[] { "Ilumina\u00E7\u00E3o" }));
-		panel_7.add(cbUsabilidade, "cell 1 2,growx");
 
 		JLabel lblFd = new JLabel("Fd:");
 		panel_7.add(lblFd, "cell 3 2,alignx left");
@@ -812,56 +824,57 @@ public class ProjetoFrm extends JInternalFrame {
 	public void listener() {
 
 		this.iniciaTabelaProjetos();
-		this.txtData.setText(Data.Atual());
 		this.tableProjetos.getSelectionModel().addListSelectionListener(new ProjetoListSelectionListener(this));
 		this.tableQuadros.getSelectionModel().addListSelectionListener(new QuadroListSelectionListener(this));
-		this.abas.addChangeListener(new ProjetoChangeListener(this));
 		this.tableFontes.getSelectionModel().addListSelectionListener(new FonteListSelectionListener(this));
+		this.listCircuitos.getSelectionModel().addListSelectionListener(new CircuitoListSelectionListener(this));
+		this.abas.addChangeListener(new ProjetoChangeListener(this));
+		this.txtData.setText(Data.Atual());
 		this.cbQuadroPai.addPopupMenuListener(new QuadroPopupMenuListener(this));
 		new FontesKeyListener(this);
 		new FonteActionListener(this);
 		new QuadroKeyListener(this);
 		new QuadroActionListener(this);
+		new CircuitoKeyListener(this);
+		new CircuitoActionListener(this);
 
 	}
-	
+
 	public void iniciaTabelaFontes() {
 
 		FonteApagarDados.formu(this);
-		FonteService service = new FonteService();
-		FonteTableModel model = new FonteTableModel();
 		HashMap<Object, Object> filtro = new HashMap<>();
 		if (!(lblIdProjeto.getText().equals("") || lblIdProjeto.getText().equals("0"))) {
 			filtro.put("idProjeto", Integer.parseInt(lblIdProjeto.getText()));
-			model.setFontes(service.getFontes(filtro));
-			this.tableFontes.setModel(model);
+			this.setFontes(new FonteService().getFontes(filtro));
 		} else {
 			this.tableFontes.setModel(new DefaultTableModel());
 		}
-
 	}
 
 	public void iniciaTabelaQuadros() {
 
 		QuadroApagarDados.formu(this);
-		QuadroService service = new QuadroService();
-		QuadroTableModel model = new QuadroTableModel();
 		HashMap<Object, Object> filtro = new HashMap<>();
 		if (!(lblIdFonte.getText().equals("") || lblIdFonte.getText().equals("0"))) {
 			filtro.put("idFonte", Integer.parseInt(lblIdFonte.getText()));
-			model.setQuadros(service.getQuadros(filtro));
-			this.tableQuadros.setModel(model);
+			this.setQuadros(new QuadroService().getQuadros(filtro));
 		} else {
 			this.tableQuadros.setModel(new DefaultTableModel());
 		}
+	}
+	
+	public void iniciaListCircuitos() {
 
+		CircuitoApagarDados.formu(this);
+		HashMap<Object,Object> filtro = new HashMap<>();
+		filtro.put("idQuadro",this.lblIdQuadro.getText());
+		this.setCircuitos(new CircuitoService().getCircuitos(filtro));
 	}
 
 	public void iniciaTabelaProjetos() {
-		ProjetoService service = new ProjetoService();
-		ProjetoTableModel model = new ProjetoTableModel();
-		model.setProjetos(service.getProjetos(new HashMap<>()));
-		this.tableProjetos.setModel(model);
+		
+		this.setProjetos(new ProjetoService().getProjetos(new HashMap<>()));
 	}
 
 	public void setCircuitos(List<Circuito> circuitos) {
@@ -870,10 +883,6 @@ public class ProjetoFrm extends JInternalFrame {
 
 	public Circuito getSelectCircuito() {
 		return this.listCircuitos.getSelectedValue();
-	}
-
-	public void removeCircuitoSelecionado() {
-		this.listCircuitos.remove(this.listCircuitos.getSelectedIndex());
 	}
 
 	public void setQuadros(ArrayList<Quadro> quadros) {
@@ -918,12 +927,60 @@ public class ProjetoFrm extends JInternalFrame {
 
 	}
 
+	public JLabel getLblIdCondutor() {
+		return lblIdCondutor;
+	}
+
+	public void setLblIdCondutor(JLabel lblIdCondutor) {
+		this.lblIdCondutor = lblIdCondutor;
+	}
+
 	public Projeto getSelectProjeto() {
 
 		int index = this.tableProjetos.getSelectedRow();
 		ProjetoTableModel model = (ProjetoTableModel) this.tableProjetos.getModel();
 		return model.getProjeto(index);
 
+	}
+
+	public JTextField getTxtQTensaoCircuito() {
+		return txtQTensaoCircuito;
+	}
+
+	public void setTxtQTensaoCircuito(JTextField txtQTensaoCircuito) {
+		this.txtQTensaoCircuito = txtQTensaoCircuito;
+	}
+
+	public JTextField getTxtResistividadeTermCircuito() {
+		return txtResistividadeTermCircuito;
+	}
+
+	public void setTxtResistividadeTermCircuito(JTextField txtResistividadeTermCircuito) {
+		this.txtResistividadeTermCircuito = txtResistividadeTermCircuito;
+	}
+
+	public JTextField getTxtTemperaturaCircuito() {
+		return txtTemperaturaCircuito;
+	}
+
+	public void setTxtTemperaturaCircuito(JTextField txtTemperaturaCircuito) {
+		this.txtTemperaturaCircuito = txtTemperaturaCircuito;
+	}
+
+	public JTextField getTxtComprimentoCircuito() {
+		return txtComprimentoCircuito;
+	}
+
+	public void setTxtComprimentoCircuito(JTextField txtComprimentoCircuito) {
+		this.txtComprimentoCircuito = txtComprimentoCircuito;
+	}
+
+	public JTextField getTxtNomeCircuito() {
+		return txtNomeCircuito;
+	}
+
+	public void setTxtNomeCircuito(JTextField txtNomeCircuito) {
+		this.txtNomeCircuito = txtNomeCircuito;
 	}
 
 	public void setPosicao() {
@@ -945,6 +1002,14 @@ public class ProjetoFrm extends JInternalFrame {
 
 	public void setPanelFonte(JPanel panelFonte) {
 		this.panelFonte = panelFonte;
+	}
+
+	public JPanel getPanelCircuito() {
+		return panelCircuito;
+	}
+
+	public void setPanelCircuito(JPanel panelCircuito) {
+		this.panelCircuito = panelCircuito;
 	}
 
 	public JPanel getPanelQuadro() {
@@ -996,11 +1061,11 @@ public class ProjetoFrm extends JInternalFrame {
 	}
 
 	public JTextField getTxtQTensao() {
-		return txtQTensao;
+		return txtQTensaoCircuito;
 	}
 
 	public void setTxtQTensao(JTextField txtQTensao) {
-		this.txtQTensao = txtQTensao;
+		this.txtQTensaoCircuito = txtQTensao;
 	}
 
 	public JComboBox<String> getCbBitolasSuessivas() {
@@ -1012,19 +1077,19 @@ public class ProjetoFrm extends JInternalFrame {
 	}
 
 	public JTextField getTxtResistividaeTerm() {
-		return txtResistividaeTerm;
+		return txtResistividadeTermCircuito;
 	}
 
 	public void setTxtResistividaeTerm(JTextField txtResistividaeTerm) {
-		this.txtResistividaeTerm = txtResistividaeTerm;
+		this.txtResistividadeTermCircuito = txtResistividaeTerm;
 	}
 
 	public JTextField getTxtTemperatura() {
-		return txtTemperatura;
+		return txtTemperaturaCircuito;
 	}
 
 	public void setTxtTemperatura(JTextField txtTemperatura) {
-		this.txtTemperatura = txtTemperatura;
+		this.txtTemperaturaCircuito = txtTemperatura;
 	}
 
 	public JComboBox<String> getCbCirAgrupados() {
@@ -1204,11 +1269,11 @@ public class ProjetoFrm extends JInternalFrame {
 	}
 
 	public JTextField getTxtComprimento() {
-		return txtComprimento;
+		return txtComprimentoCircuito;
 	}
 
 	public void setTxtComprimento(JTextField txtComprimento) {
-		this.txtComprimento = txtComprimento;
+		this.txtComprimentoCircuito = txtComprimento;
 	}
 
 	public JTextField getTxtNomeEquipamento() {
@@ -1354,7 +1419,6 @@ public class ProjetoFrm extends JInternalFrame {
 	public void setLblIdQuadro(JLabel lblIdQuadro) {
 		this.lblIdQuadro = lblIdQuadro;
 	}
-
 
 	public JComboBox<String> getCbUnidadePotEquipa() {
 		return cbUnidadePotEquipa;

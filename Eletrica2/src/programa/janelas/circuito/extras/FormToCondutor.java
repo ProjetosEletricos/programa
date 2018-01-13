@@ -2,7 +2,7 @@ package programa.janelas.circuito.extras;
 
 import auxiliar.Numero;
 import programa.Condutor;
-import programa.janelas.circuito.CircuitoFrm;
+import programa.janelas.projeto.ProjetoFrm;
 
 public class FormToCondutor {
 
@@ -11,16 +11,16 @@ public class FormToCondutor {
 		throw new IllegalStateException("Utility class");
 	}
 
-	public static Condutor copia(CircuitoFrm frmCir) {
+	public static Condutor copia(ProjetoFrm frmCir) {
 
 		Condutor condutor = new Condutor();
 
-		condutor.setId(Integer.parseInt(frmCir.getLblIdcondutor().getText()));
-		condutor.setDistAlimentador(Numero.stringToDouble(frmCir.getTxtdistAlimentador().getText()));
-		condutor.setModoInstalAlimentador(frmCir.getTxtmodoInstalacao().getText());
-		condutor.setMatAlimentador(frmCir.getTxtMaterial().getText());
-		condutor.setQuedaTensao(Numero.stringToDouble(frmCir.getTxtQTensao().getText()));
-		condutor.setIsolAlimentador(frmCir.getTxtIsolacao().getText());
+		condutor.setId(Integer.parseInt(frmCir.getLblIdCondutor().getText()));
+		condutor.setDistAlimentador(Numero.stringToDouble(frmCir.getTxtComprimentoCircuito().getText()));
+		condutor.setModoInstalAlimentador(frmCir.getTxtmodoInstalacao().getSelectedItem().toString());
+		condutor.setMatAlimentador(frmCir.getTxtMaterial().getSelectedItem().toString());
+		condutor.setQuedaTensao(Numero.stringToDouble(frmCir.getTxtQTensaoCircuito().getText()));
+		condutor.setIsolAlimentador(frmCir.getTxtIsolacao().getSelectedItem().toString());
 		condutor.setBitolasSucessivas(frmCir.getCbBitolasSuessivas().getSelectedItem().toString());
 		condutor.setnCirAgrupados(Integer.parseInt(frmCir.getCbCirAgrupados().getSelectedItem().toString()));
 		condutor.setnCamadas(Integer.parseInt(frmCir.getCbNCamadas().getSelectedItem().toString()));
@@ -28,8 +28,8 @@ public class FormToCondutor {
 		condutor.setEspacamentoCabos(frmCir.getCbEspacoCabos().getSelectedItem().toString());
 		condutor.setMultipolar(frmCir.getCbMultipolar().getSelectedItem().toString());
 		condutor.setFormaAgrupamento(frmCir.getCbFormaAgrupamento().getSelectedItem().toString());
-		condutor.setResistividadeTermica(Numero.stringToDouble(frmCir.getTxtResistividaeTerm().getText()));
-		condutor.setTempAmbiente(Numero.stringToDouble(frmCir.getTxtTemperatura().getText()));
+		condutor.setResistividadeTermica(Numero.stringToDouble(frmCir.getTxtResistividadeTermCircuito().getText()));
+		condutor.setTempAmbiente(Numero.stringToDouble(frmCir.getTxtTemperaturaCircuito().getText()));
 
 		return condutor;
 	}
