@@ -223,7 +223,7 @@ public class DaoHelper {
 			conn = getConnection();
 			stmt = conn.createStatement();
 			rset = stmt.executeQuery(query);
-			list = mapper.mapping(rset);
+				list = mapper.mapping(rset);
 		} finally {
 			releaseAll(conn, stmt, rset);
 		}

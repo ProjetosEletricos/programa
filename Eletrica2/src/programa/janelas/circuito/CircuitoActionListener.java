@@ -3,8 +3,9 @@ package programa.janelas.circuito;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import programa.janelas.circuito.extras.CircuitoBotao;
 import programa.janelas.projeto.ProjetoFrm;
-import programa.janelas.quadro.extras.QuadroBotao;
+
 
 public class CircuitoActionListener implements ActionListener {
 
@@ -26,17 +27,17 @@ public class CircuitoActionListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-System.out.println("teste");
+
 		int idQuadro = Integer.parseInt(frm.getLblIdQuadro().getText());
 
 		if (event.getSource() == frm.getBtnExcluirCircuito()) {
-			QuadroBotao.excluir(frm);
+			CircuitoBotao.excluir(frm);
 
 		} else if (event.getSource() == frm.getBtnSalvarCircuito()) {
-			QuadroBotao.salvar(frm, idQuadro);
+			CircuitoBotao.salvar(frm, idQuadro);
 
 		} else if (event.getSource() == frm.getBtnCopiarCircuito()) {
-			QuadroBotao.copiar(frm, idQuadro);
+			CircuitoBotao.copiar(frm, idQuadro);
 
 		}
 	}

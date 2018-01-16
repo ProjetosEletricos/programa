@@ -11,25 +11,25 @@ public class FormToCondutor {
 		throw new IllegalStateException("Utility class");
 	}
 
-	public static Condutor copia(ProjetoFrm frmCir) {
+	public static Condutor copia(ProjetoFrm frm) {
 
 		Condutor condutor = new Condutor();
 
-		condutor.setId(Integer.parseInt(frmCir.getLblIdCondutor().getText()));
-		condutor.setDistAlimentador(Numero.stringToDouble(frmCir.getTxtComprimentoCircuito().getText()));
-		condutor.setModoInstalAlimentador(frmCir.getTxtmodoInstalacao().getSelectedItem().toString());
-		condutor.setMatAlimentador(frmCir.getTxtMaterial().getSelectedItem().toString());
-		condutor.setQuedaTensao(Numero.stringToDouble(frmCir.getTxtQTensaoCircuito().getText()));
-		condutor.setIsolAlimentador(frmCir.getTxtIsolacao().getSelectedItem().toString());
-		condutor.setBitolasSucessivas(frmCir.getCbBitolasSuessivas().getSelectedItem().toString());
-		condutor.setnCirAgrupados(Integer.parseInt(frmCir.getCbCirAgrupados().getSelectedItem().toString()));
-		condutor.setnCamadas(Integer.parseInt(frmCir.getCbNCamadas().getSelectedItem().toString()));
-		condutor.setEnterrado(frmCir.getCbEnterrado().getSelectedItem().toString());
-		condutor.setEspacamentoCabos(frmCir.getCbEspacoCabos().getSelectedItem().toString());
-		condutor.setMultipolar(frmCir.getCbMultipolar().getSelectedItem().toString());
-		condutor.setFormaAgrupamento(frmCir.getCbFormaAgrupamento().getSelectedItem().toString());
-		condutor.setResistividadeTermica(Numero.stringToDouble(frmCir.getTxtResistividadeTermCircuito().getText()));
-		condutor.setTempAmbiente(Numero.stringToDouble(frmCir.getTxtTemperaturaCircuito().getText()));
+		condutor.setId(Integer.parseInt(frm.getLblIdCondutor().getText()));
+		condutor.setDistAlimentador(Numero.stringToDouble(frm.getTxtComprimentoCircuito().getText()));
+		condutor.setModoInstalAlimentador(frm.getTxtmodoInstalacao().getSelectedItem().toString());
+		condutor.setMatAlimentador(frm.getTxtMaterial().getSelectedItem().toString());
+		condutor.setQuedaTensao(Numero.stringToDouble(frm.getTxtQTensaoCircuito().getText()));
+		condutor.setIsolAlimentador(frm.getTxtIsolacao().getSelectedItem().toString());
+		condutor.setBitolasSucessivas(frm.getCbBitolasSuessivas().getSelectedItem().toString());
+		condutor.setnCirAgrupados(Integer.parseInt(frm.getCbCirAgrupados().getSelectedItem().toString()));
+		condutor.setnCamadas(Integer.parseInt(frm.getCbNCamadas().getSelectedItem().toString()));
+		condutor.setEnterrado(frm.getCbEnterrado().getSelectedItem().toString());
+		condutor.setEspacamentoCabos(frm.getCbEspacoCabos().getSelectedItem().toString());
+		condutor.setMultipolar(frm.getCbMultipolar().getSelectedItem().toString());
+		condutor.setFormaAgrupamento(frm.getCbFormaAgrupamento().getSelectedItem().toString());
+		condutor.setResistividadeTermica(Numero.stringToDouble(frm.getTxtResistividadeTermCircuito().getText()));
+		condutor.setTempAmbiente(Numero.stringToDouble(frm.getTxtTemperaturaCircuito().getText()));
 
 		return condutor;
 	}

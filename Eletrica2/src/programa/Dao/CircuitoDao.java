@@ -25,7 +25,7 @@ public class CircuitoDao {
 		int id = 0;
 		try {
 
-			id = daoHelper.executaDaoComRetornoDeChave("insert into circuito (idQuadro, nome) " + "values (?,?)", idQuadro,
+			id = daoHelper.executaDaoComRetornoDeChave("insert into circuito (idQuadro, Nome) " + "values (?,?)", idQuadro,
 					circuito.getNome());
 
 		} catch (NullPointerException | SQLException e) {
@@ -43,7 +43,7 @@ public class CircuitoDao {
 
 	public void atualizar(Circuito circuito, int idQuadro) {
 
-		final String query = "update circuito set idQuadro = ?,nome =? where Id=?";
+		final String query = "update circuito set idQuadro = ?,Nome =? where Id=?";
 
 		daoHelper.beginTransaction();
 

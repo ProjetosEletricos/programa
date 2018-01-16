@@ -21,9 +21,11 @@ public class CircuitoListSelectionListener implements ListSelectionListener {
 	public void valueChanged(ListSelectionEvent event) {
 
 		Circuito circuito = frm.getSelectCircuito();
-		CircuitoToForm.copia(circuito, frm);
-		Condutor condutor = circuito.getCondutor();
-		CondutorToForm.copia(condutor, frm);
+		if( circuito != null) {
+			CircuitoToForm.copia(circuito, frm);
+			Condutor condutor = circuito.getCondutor();
+			CondutorToForm.copia(condutor, frm);
+		}
 
 	}
 }

@@ -1,6 +1,5 @@
 package programa.janelas.circuito.extras;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import programa.Circuito;
@@ -24,9 +23,9 @@ public class CircuitoBotao {
 		Condutor condutor = FormToCondutor.copia(frm);
 		serviceCir.salvar(circuito, idQuadro);
 		serviceCond.salvar(condutor);
-		ArrayList<Circuito> circuitos = new ArrayList<>();
-		circuitos = serviceCir.getCircuitos(new HashMap<>());
-		frm.setCircuitos(circuitos);
+		HashMap<Object, Object> filtro = new HashMap<>();
+		filtro.put("idQuadro", frm.getLblIdQuadro().getText());
+		frm.setCircuitos(new CircuitoService().getCircuitos(filtro));
 		CircuitoApagarDados.formu(frm);
 	}
 
